@@ -7,9 +7,9 @@
     </b-form>
     <b-navbar-nav class="ml-auto">
       <b-list-group>
-        <b-list-item>
+        <!--<b-list-item>
           <b-avatar size="5rem"></b-avatar>
-        </b-list-item>
+        </b-list-item>-->
       </b-list-group>
     </b-navbar-nav>
   </b-navbar>
@@ -22,9 +22,7 @@ import {
   BFormGroup,
   BFormInput,
   BNavbarNav,
-  BAvatar,
   BListGroup,
-  BListItem,
 } from "bootstrap-vue";
 export default {
   name: "Header",
@@ -34,9 +32,8 @@ export default {
     BFormGroup,
     BFormInput,
     BNavbarNav,
-    BAvatar,
+    // BAvatar,
     BListGroup,
-    BListItem,
   },
 };
 </script>
