@@ -1,11 +1,12 @@
 <template>
-  <quill-editor
-    class="py-3"
-    v-model="content"
-    :options="{
-      placeholder: placeholder,
-    }"
-  ></quill-editor>
+  <div class="my-3">
+    <quill-editor
+      :options="{
+        placeholder: placeholder,
+      }"
+      v-on:change="($event) => $emit('change', $event.text)"
+    ></quill-editor>
+  </div>
 </template>
 
 <script>
@@ -13,17 +14,24 @@ import "quill/dist/quill.snow.css";
 import { quillEditor } from "vue-quill-editor";
 export default {
   name: "WysiwygInput",
-  components: {
-    quillEditor,
+  model: {
+    prop: "content",
+    event: "change",
   },
   props: {
-    content: String,
     placeholder: {
       type: String,
       default: "Insert your text here...",
     },
   },
+  components: {
+    quillEditor,
+  },
 };
 </script>
 
-<style scoped></style>
+<style>
+.ql-editor {
+  min-height: 200px !important;
+}
+</style>

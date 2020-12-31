@@ -3,9 +3,14 @@
     <b-card class="mb-3">
       <div class="d-flex justify-content-between">
         <a class="text-blue font-weight-700">This is Blog post title</a>
-        <b-dropdown variant="link" toggle-class="text-decoration-none" no-caret right>
+        <b-dropdown
+          variant="link"
+          toggle-class="text-decoration-none"
+          no-caret
+          right
+        >
           <template v-slot:button-content>
-            <font-awesome-icon icon="ellipsis-v"/>
+            <font-awesome-icon icon="ellipsis-v" />
           </template>
           <b-dropdown-item href="#!">Edit Post</b-dropdown-item>
           <b-dropdown-item href="#!">Delete Post</b-dropdown-item>

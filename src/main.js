@@ -8,10 +8,15 @@ import store from "./store";
 import axios from "axios";
 import "./utils/FontAwesoneInit";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import titleMixin from "./mixins/titleMixin";
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
+Vue.mixin(titleMixin);
 
 Vue.config.productionTip = false;
+
+Vue.prototype.$http = axios;
+Vue.prototype.$baseUrl = "http://localhost:8000/api";
 
 new Vue({
   router,

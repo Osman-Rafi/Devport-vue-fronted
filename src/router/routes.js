@@ -4,7 +4,6 @@ import DashboardLayout from "../views/Layout/Dashboard/DashboardLayout";
 
 Vue.use(VueRouter);
 
-
 const routes = [
   {
     path: "/",
@@ -25,7 +24,7 @@ const routes = [
       {
         path: "/profile",
         component: () => import("../views/Profile/Profile"),
-      }
+      },
     ],
   },
 ];

@@ -17,6 +17,10 @@ import UserGeneralInfo from "./UserGeneralInfo";
 import RecentBlogPost from "./RecentBlogPost/RecentBlogPost";
 export default {
   name: "Profile",
+  title() {
+    return "Devport-Profile";
+    // return `Devport-${this.user.name}`
+  },
   components: {
     BContainer,
     BRow,

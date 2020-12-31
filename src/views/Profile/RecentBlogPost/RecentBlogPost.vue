@@ -9,8 +9,25 @@
         v-b-modal.create-post-modal
         >New Blog</b-button
       >
-      <b-modal id="create-post-modal" title="Create New Blog" size="lg" button-size="sm" cancelTitle="Discard" okTitle="Save Post">
-        <CreateOrEditBlog />
+      <b-modal
+        id="create-post-modal"
+        title="Create New Blog"
+        size="lg"
+        button-size="sm"
+        cancelTitle="Discard"
+        okTitle="Save Post"
+        @ok="handleSubmit"
+      >
+        <CreateOrEditBlog v-model="blogPost" />
+        <!--<b-form ref="blog" @submit.stop.prevent="handleSubmit">
+          <b-input-group>
+            <b-form-input
+              placeholder="Post Title"
+              v-model="title"
+            ></b-form-input>
+            <wysiwyg-input v-model="content" placeholder="Post Content" />
+          </b-input-group>
+        </b-form>-->
       </b-modal>
     </div>
     <b-row>
@@ -31,22 +48,81 @@
 </template>
 
 <script>
-import { BRow, BCol, BButton, BModal, VBModal } from "bootstrap-vue";
+import Vue from "vue";
+import {
+  BRow,
+  BCol,
+  BButton,
+  // BForm,
+  // BInputGroup,
+  // BFormInput,
+} from "bootstrap-vue";
+// import WysiwygInput from "../../../plugins/vue-quill-editor/WysiwygInput";
 import RecentBlogPostDetails from "./RecentBlogPostDetails";
+import { ModalPlugin } from "bootstrap-vue";
 import CreateOrEditBlog from "../../Blog/CreateOrEditBlog";
+
+Vue.use(ModalPlugin);
+
 export default {
   name: "RecentBlogPost",
   components: {
     BRow,
     BCol,
     BButton,
-    BModal,
     RecentBlogPostDetails,
     CreateOrEditBlog,
+    // BForm,
+    // BInputGroup,
+    // BFormInput,
+    // WysiwygInput,
   },
-  directives: {
-    "b-modal": VBModal,
+
+  data() {
+    return {
+      titleState: null,
+      contentState: null,
+      blogPost: {},
+      title: "",
+    };
   },
+  mounted() {
+    // console.log("Root API = ", this.$baseUrl);
+  },
+  methods: {
+    /*validateBlogSubmit() {
+      const valid = this.$ref.blog.checkValidity();
+      this.titleState = valid;
+      return valid;
+    },*/
+    async handleSubmit(bvModalEvt) {
+      // if (!this.validateBlogSubmit()) return;
+      bvModalEvt.preventDefault(); // prevent modal closing
+      const blogPost = { title: this.title, content: this.content };
+      await this.$http
+        .post(`${this.$baseUrl}/experience/blog`, blogPost)
+        .then((res) => console.log(res));
+
+      //hide modal on submit
+      this.$nextTick(() => {
+        this.$bvModal.hide("create-post-modal");
+      });
+    },
+
+    /*async postData() {
+      try{
+        await api
+      }
+    }*/
+  },
+  /*watch: {
+    content(val) {
+      console.log(val);
+    },
+    title(val) {
+      console.log(val);
+    },
+  },*/
 };
 </script>
 
