@@ -4,7 +4,7 @@
       :options="{
         placeholder: placeholder,
       }"
-      v-on:change="($event) => $emit('change', $event.text)"
+      @change="($event) => $emit('change', $event.text)"
     ></quill-editor>
   </div>
 </template>

@@ -3,11 +3,15 @@
     <b-input-group>
       <input
         type="text"
+        name="title"
         class="form-control"
         placeholder="Post Title"
         @input="setField($event.target.value, 'title')"
       />
-      <wysiwyg-input @change="setField" placeholder="Post Content" />
+      <wysiwyg-input
+        @change="(text) => setField(text, 'content')"
+        placeholder="Post Content"
+      />
     </b-input-group>
   </b-form>
 </template>
@@ -24,11 +28,11 @@ export default {
   },
   methods: {
     setField(value, field) {
-      console.log(value);
+      console.log(value, field);
 
       this.$emit("input", {
         title: field === "title" && value,
-        content: field === "content" ? value : "",
+        content: field === "content" && value,
       });
     },
   },
