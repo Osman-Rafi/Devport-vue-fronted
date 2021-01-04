@@ -115,14 +115,11 @@ export default {
       }
     }*/
   },
-  /*watch: {
-    content(val) {
+  watch: {
+    /*blogPost(val) {
       console.log(val);
-    },
-    title(val) {
-      console.log(val);
-    },
-  },*/
+    },*/
+  },
 };
 </script>
 

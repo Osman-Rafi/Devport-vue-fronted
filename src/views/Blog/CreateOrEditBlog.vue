@@ -26,13 +26,20 @@ export default {
     BInputGroup,
     WysiwygInput,
   },
+  data() {
+    return {
+      title: "",
+      content: "",
+    };
+  },
   methods: {
     setField(value, field) {
-      console.log(value, field);
+      if (field === "title") this.title = value;
+      if (field === "content") this.content = value;
 
       this.$emit("input", {
-        title: field === "title" && value,
-        content: field === "content" && value,
+        title: this.title,
+        content: this.content,
       });
     },
   },
