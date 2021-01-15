@@ -69,18 +69,15 @@ export default {
   methods: {
     async handleSubmit(bvModalEvt) {
       bvModalEvt.preventDefault(); // prevent modal closing
-      /*await this.$http
-        .post(`${this.$baseUrl}/experience/blog`, newBlogPost)
-        .then((res) => console.log(res));*/
+      await this.$http
+        .post(`${this.$baseUrl}/experience/blog`, this.newBlogPost)
+        .then((res) => console.log(res));
 
       //hide modal on submit
-      if (this.newBlogPost.titleState !== null && this.newBlogPost.titleState) {
-        this.$nextTick(() => {
-          this.$bvModal.hide("create-post-modal");
-        });
-      } else {
-        alert("Fill the form correctly");
-      }
+      this.$nextTick(() => {
+        this.$bvModal.hide("create-post-modal");
+      });
+
       this.resetFormData();
     },
     resetFormData() {
