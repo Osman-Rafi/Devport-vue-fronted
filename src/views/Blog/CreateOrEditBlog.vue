@@ -1,49 +1,66 @@
 <template>
-  <b-form ref="blog" @submit.stop.prevent="handleSubmit">
-    <b-input-group>
-      <input
+  <b-form ref="blog" @submit.stop.prevent="preventClose">
+    <b-form-group invalid-feedback="Post title is required" :state="titleState">
+      <b-form-input
         type="text"
         name="title"
         class="form-control"
         placeholder="Post Title"
-        @input="setField($event.target.value, 'title')"
+        required
+        :state="titleState"
+        @update="($event) => setField($event, 'title')"
       />
-      <wysiwyg-input
-        @change="(text) => setField(text, 'content')"
-        placeholder="Post Content"
-      />
-    </b-input-group>
+    </b-form-group>
+    <wysiwyg-input
+      @change="(text) => setField(text, 'content')"
+      placeholder="Post Content"
+    />
   </b-form>
 </template>
 
 <script>
-import { BForm, BInputGroup } from "bootstrap-vue";
+import { BForm, BFormGroup, BFormInput } from "bootstrap-vue";
 import WysiwygInput from "../../plugins/vue-quill-editor/WysiwygInput";
 export default {
   name: "CreateOrEditBlog",
   components: {
     BForm,
-    BInputGroup,
+    BFormGroup,
+    BFormInput,
     WysiwygInput,
+  },
+  props: {
+    preventClose: {
+      type: Function,
+      required: false,
+    },
   },
   data() {
     return {
       title: "",
       content: "",
+      titleState: null,
     };
   },
   methods: {
     setField(value, field) {
-      if (field === "title") this.title = value;
+      if (field === "title") {
+        this.title = value;
+        this.validateTitle();
+      }
       if (field === "content") this.content = value;
 
       this.$emit("input", {
         title: this.title,
         content: this.content,
+        titleState: this.titleState,
       });
+    },
+    validateTitle() {
+      const valid = this.title.length > 0;
+      this.titleState = valid;
+      return valid;
     },
   },
 };
 </script>
-
-<style scoped></style>
