@@ -12,7 +12,7 @@
       />
     </b-form-group>
     <wysiwyg-input
-      @change="(text) => setField(text, 'content')"
+      @change="(text) => setField(text, 'description')"
       placeholder="Post Content"
     />
   </b-form>
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       title: "",
-      content: "",
+      description: "",
       titleState: null,
     };
   },
@@ -48,11 +48,11 @@ export default {
         this.title = value;
         this.validateTitle();
       }
-      if (field === "content") this.content = value;
+      if (field === "description") this.description = value;
 
       this.$emit("input", {
         title: this.title,
-        content: this.content,
+        description: this.description,
         titleState: this.titleState,
       });
     },

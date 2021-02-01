@@ -14,9 +14,12 @@
             <span style="color: #00d7ab">
               <font-awesome-icon :icon="item.icon" class="mr-2 fa-lg" />
             </span>
-            <span class="font-weight-500 fs-0 text-white">{{ item.label }}</span>
+            <span class="font-weight-500 fs-0 text-white">{{
+              item.label
+            }}</span>
           </router-link>
         </li>
+        <a href="" @click.prevent="logout">Logout</a>
       </ul>
     </div>
   </nav>
@@ -44,6 +47,13 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push({ path: "/login" });
+      });
+    },
   },
 };
 </script>

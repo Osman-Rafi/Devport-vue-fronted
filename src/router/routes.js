@@ -6,23 +6,31 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: "/login",
+    component: () => import("../views/Auth/Login"),
+    meta: { guestOnly: false },
+  },
+  {
+    path: "/register",
+    component: () => import("../views/Auth/Register"),
+    meta: { guestOnly: false },
+  },
+  {
     path: "/",
     component: DashboardLayout,
+    meta: { requiresAuth: true },
     children: [
       {
-        path: "/home",
+        path: "home",
+        name: "Home",
         component: () => import("../views/Home"),
       },
       {
-        path: "/about",
+        path: "about",
         component: () => import("../views/About"),
       },
       {
-        path: "/login",
-        component: () => import("../views/Login"),
-      },
-      {
-        path: "/profile",
+        path: "profile",
         component: () => import("../views/Profile/Profile"),
       },
     ],
@@ -36,11 +44,18 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const loggedIn = localStorage.getItem("user");
+  const loggedIn = localStorage.getItem("auth");
 
-  if (to.matched.some((record) => record.meta.auth) && !loggedIn) {
+  if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
     next("/login");
     return;
+  } else if (to.matched.some((record) => record.meta.guestOnly)) {
+    if (loggedIn) {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath },
+      });
+    }
   }
   next();
 });
