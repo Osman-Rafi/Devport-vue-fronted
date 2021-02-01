@@ -70,7 +70,7 @@ export default {
     async handleSubmit(bvModalEvt) {
       bvModalEvt.preventDefault(); // prevent modal closing
       await this.$http
-        .post(`${this.$baseUrl}/experience/blog`, this.newBlogPost)
+        .post(`${this.$baseUrl}/blog-post`, this.newBlogPost)
         .then((res) => console.log(res));
 
       //hide modal on submit
