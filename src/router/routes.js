@@ -8,12 +8,12 @@ const routes = [
   {
     path: "/login",
     component: () => import("../views/Auth/Login"),
-    meta: { guestOnly: false },
+    meta: { hideForAuth: true },
   },
   {
     path: "/register",
     component: () => import("../views/Auth/Register"),
-    meta: { guestOnly: false },
+    meta: { hideForAuth: true },
   },
   {
     path: "/",
@@ -43,21 +43,28 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const loggedIn = localStorage.getItem("auth");
+const loggedIn = localStorage.getItem("auth");
 
-  if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
-    next("/login");
-    return;
-  } else if (to.matched.some((record) => record.meta.guestOnly)) {
-    if (loggedIn) {
-      next({
-        path: "/login",
-        query: { redirect: to.fullPath },
-      });
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!loggedIn) {
+      next({ path: "/login" });
+    } else {
+      next();
     }
+  } else {
+    next();
   }
-  next();
+
+  if (to.matched.some((record) => record.meta.hideForAuth)) {
+    if (loggedIn) {
+      next({ path: "//" });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
