@@ -58,7 +58,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.matched.some((record) => record.meta.hideForAuth)) {
     if (loggedIn) {
-      next({ path: "//" });
+      next({ path: "/" });
     } else {
       next();
     }
