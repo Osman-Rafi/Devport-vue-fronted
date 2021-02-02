@@ -43,28 +43,19 @@ const router = new VueRouter({
   routes,
 });
 
-const loggedIn = localStorage.getItem("auth");
-
 router.beforeEach((to, from, next) => {
+  const loggedIn = localStorage.getItem("auth");
+
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!loggedIn) {
-      next({ path: "/login" });
-    } else {
-      next();
+      return next({ path: "/login" });
     }
-  } else {
-    next();
-  }
-
-  if (to.matched.some((record) => record.meta.hideForAuth)) {
+  } else if (to.matched.some((record) => record.meta.hideForAuth)) {
     if (loggedIn) {
-      next({ path: "/" });
-    } else {
-      next();
+      return next({ path: "/" });
     }
-  } else {
-    next();
   }
+  next();
 });
 
 export default router;

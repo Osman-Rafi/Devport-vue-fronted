@@ -114,7 +114,6 @@ export default new Vuex.Store({
 
     logout({ commit }) {
       userLogout().then(() => {
-        localStorage.removeItem("auth");
         commit("auth_clear");
       });
     },

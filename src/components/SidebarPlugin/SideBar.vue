@@ -50,6 +50,7 @@ export default {
   },
   methods: {
     logout() {
+      localStorage.removeItem("auth");
       this.$store.dispatch("logout").then(() => {
         this.$router.push({ path: "/login" });
       });
