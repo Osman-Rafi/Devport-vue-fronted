@@ -1,42 +1,23 @@
 import { userLogin, userLogout, userRegister } from "../../../api/User";
 
-const register = ({ commit }, authData) => {
-  return new Promise((resolve, reject) => {
-    commit("auth_request");
-    userRegister(authData)
-      .then((res) => {
-        const user = res.data.user;
-        commit("auth_success", user);
-        resolve(res);
-      })
-      .catch((err) => {
-        commit("auth_error");
-        reject(err);
-      });
-    console.log("action");
-  });
+const register = async ({ commit }, authData) => {
+  commit(""); //TODO : resolve this
+  await userRegister(authData);
 };
 
 const login = ({ commit }, authData) => {
-  return new Promise((resolve, reject) => {
-    commit("auth_request");
-    userLogin(authData)
-      .then((res) => {
-        const user = res.data.user;
-        commit("auth_success", user);
-        resolve(res);
-      })
-      .catch((err) => {
-        commit("auth_error");
-        reject(err);
-      });
-  });
+  return userLogin(authData)
+    .then((res) => {
+      commit("set_user", res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
-const logout = ({ commit }) => {
-  userLogout().then(() => {
-    commit("auth_clear");
-  });
+const logout = async ({ commit }) => {
+  await userLogout();
+  commit("clear_user_data");
 };
 
 export default { register, login, logout };

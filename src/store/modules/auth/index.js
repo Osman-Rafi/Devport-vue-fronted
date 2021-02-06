@@ -3,8 +3,6 @@ import mutations from "./mutations";
 
 export default {
   state: {
-    status: "",
-    token: "",
     user: {},
   },
   actions,

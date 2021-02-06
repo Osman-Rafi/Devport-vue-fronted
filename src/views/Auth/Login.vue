@@ -77,14 +77,13 @@ export default {
           password: this.password,
         })
         .then(() => {
-          localStorage.setItem("auth", "true");
           this.$router.push({ path: "/" });
         })
         .catch((err) => {
-          this.error = err.response.data.errors;
+          console.log(err);
+          // this.error = err.response.data.errors;
         });
     },
   },
 };
 </script>
-

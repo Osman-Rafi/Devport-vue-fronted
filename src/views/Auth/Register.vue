@@ -125,8 +125,7 @@ export default {
           gender: this.gender,
         })
         .then(() => {
-          console.log("redirect");
-          this.$router.push({ path: "/" });
+          this.$router.push({ path: "/login" });
         })
         .catch((err) => {
           this.error = err.response.data.errors;

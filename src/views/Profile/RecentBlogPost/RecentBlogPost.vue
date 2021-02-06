@@ -46,7 +46,6 @@ import { BRow, BCol, BButton } from "bootstrap-vue";
 import RecentBlogPostDetails from "./RecentBlogPostDetails";
 import { ModalPlugin } from "bootstrap-vue";
 import CreateOrEditBlog from "../../Blog/CreateOrEditBlog";
-
 Vue.use(ModalPlugin);
 
 export default {

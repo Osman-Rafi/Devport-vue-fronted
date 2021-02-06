@@ -1,19 +1,14 @@
-const auth_request = (state) => {
-  state.status = "loading";
+import { setAuthHeader } from "../../../api/Api";
+
+const set_user = (state, userData) => {
+  state.user = userData.data.user;
+  localStorage.setItem("user", JSON.stringify(userData.data.user));
+  setAuthHeader(userData.data.token);
 };
 
-const auth_success = (state, user) => {
-  state.status = "success";
-  state.user = user;
+const clear_user_data = () => {
+  localStorage.removeItem("user");
+  // location.reload();
 };
 
-const auth_error = (state) => {
-  state.status = "error";
-};
-
-const auth_clear = (state) => {
-  state.user = {};
-  state.status = "";
-};
-
-export default { auth_request, auth_success, auth_error, auth_clear };
+export default { set_user, clear_user_data };

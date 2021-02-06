@@ -1,8 +1,12 @@
 import axios from "axios";
 
-let API = axios.create({
+export let API = axios.create({
   baseURL: "http://localhost:8000/api",
 });
+
+export let setAuthHeader = (token) => {
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+};
 
 axios.defaults.withCredentials = true;
 
