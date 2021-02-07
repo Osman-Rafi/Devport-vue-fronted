@@ -1,12 +1,12 @@
-import { userLogin, userLogout, userRegister } from "../../../api/User";
+import { API } from "../../../api/Api";
 
 const register = async ({ commit }, authData) => {
   commit(""); //TODO : resolve this
-  await userRegister(authData);
+  await API.post("/register", authData);
 };
 
 const login = ({ commit }, authData) => {
-  return userLogin(authData)
+  return API.post("/login", authData)
     .then((res) => {
       commit("set_user", res);
     })
@@ -16,7 +16,7 @@ const login = ({ commit }, authData) => {
 };
 
 const logout = async ({ commit }) => {
-  await userLogout();
+  await API.post("/logout");
   commit("clear_user_data");
 };
 
