@@ -33,6 +33,10 @@ const routes = [
         path: "profile",
         component: () => import("../views/Profile/Profile"),
       },
+      {
+        path: "/blog",
+        component: () => import("../views/Blog/RecentBlogPost"),
+      },
     ],
   },
 ];

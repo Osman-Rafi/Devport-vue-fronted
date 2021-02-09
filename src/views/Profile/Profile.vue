@@ -1,20 +1,16 @@
 <template>
-  <b-container fluid>
-    <b-row class="mt-3">
-      <b-col md="3">
-        <UserGeneralInfo />
-      </b-col>
-      <b-col md="8">
-        <RecentBlogPost />
-      </b-col>
-    </b-row>
-  </b-container>
+  <b-row>
+    <b-col sm="8">
+      <UserSummary />
+      <Education />
+    </b-col>
+  </b-row>
 </template>
 
 <script>
-import { BContainer, BRow, BCol } from "bootstrap-vue";
-import UserGeneralInfo from "./UserGeneralInfo";
-import RecentBlogPost from "./RecentBlogPost/RecentBlogPost";
+import { BRow, BCol } from "bootstrap-vue";
+import UserSummary from "./UserSummary";
+import Education from "./Education";
 export default {
   name: "Profile",
   title() {
@@ -22,11 +18,10 @@ export default {
     // return `Devport-${this.user.name}`
   },
   components: {
-    BContainer,
     BRow,
     BCol,
-    UserGeneralInfo,
-    RecentBlogPost,
+    UserSummary,
+    Education,
   },
 };
 </script>

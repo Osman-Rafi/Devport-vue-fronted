@@ -7,11 +7,18 @@ import {
   faComment,
   faMapMarkerAlt,
   faEllipsisV,
+  faUserFriends,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
-import {} from "@fortawesome/free-brands-svg-icons";
+import { faUsps } from "@fortawesome/free-brands-svg-icons";
 import {} from "@fortawesome/fontawesome-svg-core";
-import {} from "@fortawesome/free-regular-svg-icons";
+import {
+  faCompass,
+  faUserCircle,
+  faBell,
+  faEnvelope,
+} from "@fortawesome/free-regular-svg-icons";
 
 library.add(
   faCog,
@@ -20,5 +27,12 @@ library.add(
   faThumbsUp,
   faComment,
   faMapMarkerAlt,
-  faEllipsisV
+  faEllipsisV,
+  faCompass,
+  faUserCircle,
+  faBell,
+  faEnvelope,
+  faUserFriends,
+  faUsps,
+  faPlus
 );
