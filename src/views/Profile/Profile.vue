@@ -2,26 +2,35 @@
   <b-row>
     <b-col sm="8">
       <UserSummary />
-      <Education />
+      <UserEducation />
+      <UserOrganizations />
     </b-col>
   </b-row>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { BRow, BCol } from "bootstrap-vue";
 import UserSummary from "./UserSummary";
-import Education from "./Education";
+import UserEducation from "./Education/UserEducation";
+import UserOrganizations from "./Organizations/UserOrganizations";
 export default {
   name: "Profile",
   title() {
-    return "Devport-Profile";
-    // return `Devport-${this.user.name}`
+    return `${this.userFirstName} ${this.userSureName} | Devport`;
   },
   components: {
     BRow,
     BCol,
     UserSummary,
-    Education,
+    UserEducation,
+    UserOrganizations,
+  },
+  computed: {
+    ...mapState({
+      userFirstName: (state) => state.auth.user.first_name,
+      userSureName: (state) => state.auth.user.sure_name,
+    }),
   },
 };
 </script>

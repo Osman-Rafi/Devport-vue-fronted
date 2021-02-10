@@ -21,20 +21,11 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       {
-        path: "home",
-        name: "Home",
-        component: () => import("../views/Home"),
-      },
-      {
-        path: "about",
-        component: () => import("../views/About"),
-      },
-      {
-        path: "profile",
+        path: "/profile",
         component: () => import("../views/Profile/Profile"),
       },
       {
-        path: "/blog",
+        path: "blog",
         component: () => import("../views/Blog/RecentBlogPost"),
       },
     ],
@@ -56,7 +47,7 @@ router.beforeEach((to, from, next) => {
     }
   } else if (to.matched.some((record) => record.meta.hideForAuth)) {
     if (loggedIn) {
-      return next({ path: "/" });
+      return next({ path: "/profile" });
     }
   }
   next();

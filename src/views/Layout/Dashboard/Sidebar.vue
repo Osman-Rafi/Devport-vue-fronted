@@ -43,7 +43,7 @@ export default {
             iconName: "user-circle",
           },
           label: "Profile",
-          link: "profile",
+          link: "/profile",
         },
         {
           icon: {

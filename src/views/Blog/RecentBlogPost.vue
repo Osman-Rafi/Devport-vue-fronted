@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import Vue from "vue";
+import Vue from "vue"; //TODO: reduce it
 import { BRow, BCol, BButton } from "bootstrap-vue";
 import RecentBlogPostDetails from "./RecentBlogPostDetails";
 import { ModalPlugin } from "bootstrap-vue";

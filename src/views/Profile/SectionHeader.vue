@@ -3,15 +3,11 @@
     <p class="font-weight-700 fs--1 mb-0 title-border px-2">
       {{ sectionTitle }}
     </p>
-    <b-link class="text-black-50" :to="addMoreRoute">
-      <font-awesome-icon icon="plus" class="mr-1" />
-    </b-link>
+    <slot></slot>
   </div>
 </template>
 
 <script>
-import { BLink } from "bootstrap-vue";
-
 export default {
   name: "SectionHeader",
   props: {
@@ -19,12 +15,6 @@ export default {
       type: String,
       required: true,
     },
-    addMoreRoute: {
-      type: String,
-    },
-  },
-  components: {
-    BLink,
   },
 };
 </script>
