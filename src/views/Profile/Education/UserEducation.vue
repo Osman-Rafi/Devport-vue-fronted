@@ -4,7 +4,7 @@
       <b-button
         class="text-black-50"
         variant="link"
-        v-b-modal.addEducation
+        v-b-modal.add-education
         size="sm"
       >
         <font-awesome-icon icon="plus" class="mr-1" />
@@ -23,14 +23,21 @@
       </b-list-group-item>
     </b-card>
     <b-modal
-      id="addEducation"
+      id="add-education"
+      title="Add Education"
       cancelTitle="Discard"
-      okTitle="Update"
+      okTitle="Save"
+      :ok-disabled="!addNewEducation.school"
       button-size="sm"
-      hide-header
+      hide-header-close
       return-focus="false"
+      @ok="handleAddNewEducation"
+      @hide="resetFormData"
     >
-      <CreateEducation />
+      <CreateEducation
+        v-model="addNewEducation"
+        :handle-submit="handleAddNewEducation"
+      />
     </b-modal>
   </div>
 </template>
@@ -38,6 +45,7 @@
 <script>
 import SectionHeader from "../SectionHeader";
 import CreateEducation from "./CreateEducation";
+import { API } from "../../../api/Api";
 import {
   BButton,
   BCard,
@@ -48,6 +56,11 @@ import {
 } from "bootstrap-vue";
 export default {
   name: "UserEducation",
+  data() {
+    return {
+      addNewEducation: "",
+    };
+  },
   components: {
     SectionHeader,
     CreateEducation,
@@ -59,6 +72,24 @@ export default {
   },
   directives: {
     "b-modal": VBModal,
+  },
+  methods: {
+    async handleAddNewEducation(bvModalEvt) {
+      bvModalEvt.preventDefault(); //prevent modal closing
+      await API.post(
+        `create-user-education`,
+        this.addNewEducation
+      ).then((res) => console.log(res));
+
+      //hide modal on submit
+      this.$nextTick(() => {
+        this.$bvModal.hide("add-eduction");
+      });
+      this.resetFormData();
+    },
+    resetFormData() {
+      this.addNewEducation = {};
+    },
   },
 };
 </script>

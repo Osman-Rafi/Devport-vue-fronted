@@ -77,7 +77,7 @@ export default {
           password: this.password,
         })
         .then(() => {
-          this.$router.push({ path: "/" });
+          this.$router.push({ path: "/profile" });
         })
         .catch((err) => {
           console.log(err);
