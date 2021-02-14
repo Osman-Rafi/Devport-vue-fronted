@@ -1,4 +1,4 @@
-import { API } from "../../../api/Api";
+import API from "@/api/Api";
 
 const register = async ({ commit }, authData) => {
   commit(""); //TODO : resolve this
@@ -8,7 +8,7 @@ const register = async ({ commit }, authData) => {
 const login = ({ commit }, authData) => {
   return API.post("/login", authData)
     .then((res) => {
-      commit("set_user", res);
+      commit("set_user_data", res);
     })
     .catch((err) => {
       console.log(err);

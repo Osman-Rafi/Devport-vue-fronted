@@ -24,7 +24,11 @@
         </template>
         <b-dropdown-item>Your public profile</b-dropdown-item>
         <b-dropdown-item>Settings</b-dropdown-item>
-        <b-dropdown-item>Sign out</b-dropdown-item>
+        <b-dropdown-item>
+          <a href="" @click.prevent="logout" class="text-decoration-none"
+            >Logout</a
+          >
+        </b-dropdown-item>
       </b-nav-item-dropdown>
     </b-collapse>
   </b-navbar>
@@ -54,6 +58,13 @@ export default {
     BNavItemDropdown,
     BDropdownItem,
     BAvatar,
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push({ path: "/login" });
+      });
+    },
   },
 };
 </script>

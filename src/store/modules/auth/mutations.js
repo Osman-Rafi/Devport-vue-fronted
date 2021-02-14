@@ -1,14 +1,14 @@
-import { setAuthHeader } from "../../../api/Api";
-
-const set_user = (state, userData) => {
-  state.user = userData.data.user;
-  localStorage.setItem("user", JSON.stringify(userData.data.user));
-  setAuthHeader(userData.data.token);
+const set_user_data = (state, response) => {
+  const token = response.data.token;
+  const user = response.data.user;
+  localStorage.setItem("access_token", token);
+  state.user = user;
 };
 
-const clear_user_data = () => {
-  localStorage.removeItem("user");
-  // location.reload();
+const clear_user_data = (state) => {
+  localStorage.clear();
+  state.user = {};
+  location.reload();
 };
 
-export default { set_user, clear_user_data };
+export default { set_user_data, clear_user_data };

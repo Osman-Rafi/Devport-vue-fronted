@@ -1,13 +1,18 @@
 import axios from "axios";
 
-export let API = axios.create({
-  baseURL: "http://localhost:8000/api",
-});
-
-export let setAuthHeader = (token) => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+const injectAccessToken = (config) => {
+  const accessToken = localStorage.getItem("access_token");
+  if (accessToken)
+    config.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  return config;
 };
 
-axios.defaults.withCredentials = true;
+const config = {
+  baseURL: "http://localhost:8000/api", //TODO: enviroment variable
+};
+
+const API = axios.create(config);
+
+API.interceptors.request.use(injectAccessToken);
 
 export default API;
