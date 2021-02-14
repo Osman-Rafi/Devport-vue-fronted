@@ -11,4 +11,6 @@ const clear_user_data = (state) => {
   location.reload();
 };
 
-export default { set_user_data, clear_user_data };
+const register_user = () => {};
+
+export default { set_user_data, clear_user_data, register_user };

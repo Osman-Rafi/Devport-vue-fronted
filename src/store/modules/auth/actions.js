@@ -1,23 +1,30 @@
 import API from "@/api/Api";
 
-const register = async ({ commit }, authData) => {
-  commit(""); //TODO : resolve this
-  await API.post("/register", authData);
+const register = async ({ commit }, authdata) => {
+  try {
+    await API.post("register", authdata);
+    commit("register_user");
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-const login = ({ commit }, authData) => {
-  return API.post("/login", authData)
-    .then((res) => {
-      commit("set_user_data", res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+const login = async ({ commit }, authData) => {
+  try {
+    const res = await API.post("login", authData);
+    commit("set_user_data", res);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const logout = async ({ commit }) => {
-  await API.post("/logout");
-  commit("clear_user_data");
+  try {
+    const res = await API.post("logout");
+    commit("clear_user_data", res);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default { register, login, logout };

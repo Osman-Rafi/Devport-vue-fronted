@@ -42,10 +42,11 @@
 
 <script>
 import Vue from "vue"; //TODO: reduce it
-import { BRow, BCol, BButton } from "bootstrap-vue";
+import { BRow, BCol, BButton, ModalPlugin } from "bootstrap-vue";
 import RecentBlogPostDetails from "./RecentBlogPostDetails";
-import { ModalPlugin } from "bootstrap-vue";
 import CreateOrEditBlog from "./CreateOrEditBlog";
+import API from "@/api/Api";
+
 Vue.use(ModalPlugin);
 
 export default {
@@ -68,9 +69,11 @@ export default {
   methods: {
     async handleSubmit(bvModalEvt) {
       bvModalEvt.preventDefault(); // prevent modal closing
-      await this.$http
-        .post(`${this.$baseUrl}/blog-post`, this.newBlogPost)
-        .then((res) => console.log(res));
+      try {
+        await API.post("blog-post", this.newBlogPost);
+      } catch (error) {
+        this.errors = error.response && error.response.data.errors;
+      }
 
       //hide modal on submit
       this.$nextTick(() => {

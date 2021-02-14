@@ -4,7 +4,7 @@
       <b-button
         class="text-black-50"
         variant="link"
-        v-b-modal.add-education
+        v-b-modal.add-education-modal
         size="sm"
       >
         <font-awesome-icon icon="plus" class="mr-1" />
@@ -23,7 +23,7 @@
       </b-list-group-item>
     </b-card>
     <b-modal
-      id="add-education"
+      id="add-education-modal"
       title="Add Education"
       cancelTitle="Discard"
       okTitle="Save"
@@ -43,22 +43,26 @@
 </template>
 
 <script>
+import Vue from "vue"; //TODO: reduce it
 import SectionHeader from "../SectionHeader";
 import CreateEducation from "./CreateEducation";
-import { API } from "../../../api/Api";
+import API from "../../../api/Api";
 import {
   BButton,
   BCard,
   BListGroupItem,
   BAvatar,
-  BModal,
-  VBModal,
+  ModalPlugin,
 } from "bootstrap-vue";
+
+Vue.use(ModalPlugin);
+
 export default {
   name: "UserEducation",
   data() {
     return {
       addNewEducation: "",
+      errors: null,
     };
   },
   components: {
@@ -68,22 +72,19 @@ export default {
     BCard,
     BListGroupItem,
     BAvatar,
-    BModal,
-  },
-  directives: {
-    "b-modal": VBModal,
   },
   methods: {
     async handleAddNewEducation(bvModalEvt) {
       bvModalEvt.preventDefault(); //prevent modal closing
-      await API.post(
-        `create-user-education`,
-        this.addNewEducation
-      ).then((res) => console.log(res));
+      try {
+        await API.post("create-user-education", this.addNewEducation);
+      } catch (error) {
+        this.errors = error.response && error.response.data.errors;
+      }
 
       //hide modal on submit
       this.$nextTick(() => {
-        this.$bvModal.hide("add-eduction");
+        this.$bvModal.hide("add-education-modal");
       });
       this.resetFormData();
     },
