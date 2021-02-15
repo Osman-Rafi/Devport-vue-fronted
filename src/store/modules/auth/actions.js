@@ -27,4 +27,12 @@ const logout = async ({ commit }) => {
   }
 };
 
-export default { register, login, logout };
+const clear_user_for_server_loss = async ({ commit }) => {
+  try {
+    commit("clear_user_data");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export default { register, login, logout, clear_user_for_server_loss };

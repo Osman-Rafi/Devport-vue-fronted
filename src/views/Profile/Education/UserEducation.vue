@@ -10,16 +10,57 @@
         <font-awesome-icon icon="plus" class="mr-1" />
       </b-button>
     </SectionHeader>
-    <b-card>
-      <b-list-group-item class="d-flex align-items-center border-0">
-        <b-avatar variant="primary" size="5rem" text="M"></b-avatar>
-        <div class="fs-0 ml-3">
-          <p class="font-weight-600 mb-0 fs-0">
-            Metropolitan University Bangladesh
-          </p>
-          <p class="mb-0">Bachelor of Science</p>
-          <p class="text-black-50 mb-0">2015-2019</p>
+    <b-card class="d-flex">
+      <b-list-group-item
+        class="d-flex justify-content-between border-0"
+        v-for="(education, index) in educations"
+        :key="index"
+      >
+        <div class="d-flex">
+          <b-avatar
+            variant="primary"
+            size="4rem"
+            :text="education.school.charAt(0)"
+          ></b-avatar>
+          <div class="fs-0 ml-3">
+            <p class="font-weight-600 mb-0 fs-0">
+              {{ education.school }}
+            </p>
+            <p class="mb-0">{{ education.degree }}</p>
+            <p class="text-black-50 mb-0" v-if="education.start_year">
+              {{ education.start_year }} - {{ education.end_year }}
+            </p>
+            <hr v-if="index !== educations.length - 1" />
+          </div>
         </div>
+        <div>
+          <b-button
+            class="text-black-50"
+            variant="link"
+            v-b-modal.edit-education-modal
+            size="sm"
+          >
+            <font-awesome-icon icon="pencil-alt" class="mr-1" />
+          </b-button>
+        </div>
+        <b-modal
+          id="edit-education-modal"
+          title="Edit Education"
+          cancelTitle="Discard"
+          okTitle="Save"
+          :ok-disabled="!userEducation.school"
+          button-size="sm"
+          hide-header-close
+          return-focus="false"
+          @ok="handleEditEducation"
+          @hide="resetFormData"
+        >
+          <CreateOrEditEducation
+            v-model="userEducation"
+            :editEducation="education"
+            :handle-submit="handleAddNewEducation"
+          />
+        </b-modal>
       </b-list-group-item>
     </b-card>
     <b-modal
@@ -27,15 +68,15 @@
       title="Add Education"
       cancelTitle="Discard"
       okTitle="Save"
-      :ok-disabled="!addNewEducation.school"
+      :ok-disabled="!userEducation.school"
       button-size="sm"
       hide-header-close
       return-focus="false"
       @ok="handleAddNewEducation"
       @hide="resetFormData"
     >
-      <CreateEducation
-        v-model="addNewEducation"
+      <CreateOrEditEducation
+        v-model="userEducation"
         :handle-submit="handleAddNewEducation"
       />
     </b-modal>
@@ -45,7 +86,7 @@
 <script>
 import Vue from "vue"; //TODO: reduce it
 import SectionHeader from "../SectionHeader";
-import CreateEducation from "./CreateEducation";
+import CreateOrEditEducation from "./CreateOrEditEducation";
 import API from "../../../api/Api";
 import {
   BButton,
@@ -61,23 +102,33 @@ export default {
   name: "UserEducation",
   data() {
     return {
-      addNewEducation: "",
+      educations: [],
+      userEducation: "",
       errors: null,
     };
   },
   components: {
     SectionHeader,
-    CreateEducation,
+    CreateOrEditEducation,
     BButton,
     BCard,
     BListGroupItem,
     BAvatar,
   },
   methods: {
+    async getUserEducations() {
+      try {
+        const userEducations = await API.get("user-educations");
+        this.educations = userEducations.data.userEducation;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     async handleAddNewEducation(bvModalEvt) {
       bvModalEvt.preventDefault(); //prevent modal closing
       try {
-        await API.post("create-user-education", this.addNewEducation);
+        await API.post("create-user-education", this.userEducation);
       } catch (error) {
         this.errors = error.response && error.response.data.errors;
       }
@@ -86,11 +137,26 @@ export default {
       this.$nextTick(() => {
         this.$bvModal.hide("add-education-modal");
       });
-      this.resetFormData();
+      this.userEducation = "";
     },
+
+    async handleEditEducation(bvModalEvt) {
+      bvModalEvt.preventDefault(); //prevent modal closing
+
+      try {
+        await API.put("edit-user-education", this.userEducation);
+      } catch (error) {
+        alert(error);
+      }
+      this.userEducation = "";
+    },
+
     resetFormData() {
-      this.addNewEducation = {};
+      this.education = {};
     },
+  },
+  created() {
+    this.getUserEducations();
   },
 };
 </script>

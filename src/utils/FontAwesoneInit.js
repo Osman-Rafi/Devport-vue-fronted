@@ -9,6 +9,7 @@ import {
   faEllipsisV,
   faUserFriends,
   faPlus,
+  faPencilAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faUsps } from "@fortawesome/free-brands-svg-icons";
@@ -34,5 +35,6 @@ library.add(
   faEnvelope,
   faUserFriends,
   faUsps,
-  faPlus
+  faPlus,
+  faPencilAlt
 );
