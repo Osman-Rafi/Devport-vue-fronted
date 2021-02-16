@@ -42,6 +42,16 @@
           >
             <font-awesome-icon icon="pencil-alt" class="mr-1" />
           </b-button>
+          <b-button
+            class="text-black-50"
+            variant="link"
+            size="sm"
+            @click="handleDeleteUserEducation(education.id, education.user_id)"
+          >
+            <span class="text-danger">
+              <font-awesome-icon :icon="['far', 'trash-alt']" class="mr-1" />
+            </span>
+          </b-button>
         </div>
         <b-modal
           id="edit-education-modal"
@@ -88,6 +98,7 @@ import Vue from "vue"; //TODO: reduce it
 import SectionHeader from "../SectionHeader";
 import CreateOrEditEducation from "./CreateOrEditEducation";
 import API from "../../../api/Api";
+import { mapState } from "vuex";
 import {
   BButton,
   BCard,
@@ -114,6 +125,9 @@ export default {
     BCard,
     BListGroupItem,
     BAvatar,
+  },
+  created() {
+    this.getUserEducations();
   },
   methods: {
     async getUserEducations() {
@@ -144,19 +158,32 @@ export default {
       bvModalEvt.preventDefault(); //prevent modal closing
 
       try {
-        await API.put("edit-user-education", this.userEducation);
+        await API.put(
+          `user/${this.user.id}/edit-user-education/${this.userEducation.id}`,
+          this.userEducation
+        );
       } catch (error) {
         alert(error);
       }
       this.userEducation = "";
     },
 
+    async handleDeleteUserEducation(id) {
+      try {
+        await API.delete(`user/${this.user.id}/destroy-user-education/${id}`);
+      } catch (error) {
+        alert(error);
+      }
+    },
+
     resetFormData() {
       this.education = {};
     },
   },
-  created() {
-    this.getUserEducations();
+  computed: {
+    ...mapState({
+      user: (state) => state.auth.user,
+    }),
   },
 };
 </script>

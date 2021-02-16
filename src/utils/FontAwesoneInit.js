@@ -19,6 +19,7 @@ import {
   faUserCircle,
   faBell,
   faEnvelope,
+  faTrashAlt,
 } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
@@ -36,5 +37,6 @@ library.add(
   faUserFriends,
   faUsps,
   faPlus,
-  faPencilAlt
+  faPencilAlt,
+  faTrashAlt
 );

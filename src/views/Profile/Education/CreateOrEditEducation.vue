@@ -102,6 +102,7 @@ export default {
   },
   data() {
     return {
+      id: "",
       school: "",
       degree: "",
       grade: "",
@@ -111,6 +112,7 @@ export default {
   },
   created() {
     if (this.editEducation) {
+      this.id = this.editEducation.id;
       this.school = this.editEducation.school;
       this.degree = this.editEducation.degree;
       this.grade = this.editEducation.grade;
@@ -132,6 +134,7 @@ export default {
     },
     emitFormData() {
       this.$emit("input", {
+        id: this.id,
         school: this.school,
         degree: this.degree,
         grade: this.grade,
