@@ -17,7 +17,7 @@ export default {
       if (localStorage.getItem("access_token")) {
         try {
           const res = await API.post("check-auth-status");
-          if (res.response.status === 401) {
+          if (res.status === 401) {
             this.$store.dispatch("logout").then(() => {
               this.$router.push({ path: "/login" });
             });
