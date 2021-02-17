@@ -11,10 +11,6 @@ export default {
   name: "App",
   created() {
     this.checkAuthStatus();
-    const currentPath = this.$router.history.current.path;
-    if (localStorage.getItem("access_token") && currentPath === "/") {
-      this.$router.push("/profile");
-    }
   },
   methods: {
     async checkAuthStatus() {
