@@ -39,6 +39,7 @@
             variant="link"
             v-b-modal.edit-education-modal
             size="sm"
+            @click="userEducation = education"
           >
             <font-awesome-icon icon="pencil-alt" class="mr-1" />
           </b-button>
@@ -46,31 +47,13 @@
             class="text-black-50"
             variant="link"
             size="sm"
-            @click="handleDeleteUserEducation(education.id, education.user_id)"
+            @click="handleDeleteUserEducation(education)"
           >
             <span class="text-danger">
               <font-awesome-icon :icon="['far', 'trash-alt']" class="mr-1" />
             </span>
           </b-button>
         </div>
-        <b-modal
-          id="edit-education-modal"
-          title="Edit Education"
-          cancelTitle="Discard"
-          okTitle="Save"
-          :ok-disabled="!userEducation.school"
-          button-size="sm"
-          hide-header-close
-          return-focus="false"
-          @ok="handleEditEducation"
-          @hide="resetFormData"
-        >
-          <CreateOrEditEducation
-            v-model="userEducation"
-            :editEducation="education"
-            :handle-submit="handleAddNewEducation"
-          />
-        </b-modal>
       </b-list-group-item>
     </b-card>
     <b-modal
@@ -87,6 +70,24 @@
     >
       <CreateOrEditEducation
         v-model="userEducation"
+        :handle-submit="handleAddNewEducation"
+      />
+    </b-modal>
+    <b-modal
+      id="edit-education-modal"
+      title="Edit Education"
+      cancelTitle="Discard"
+      okTitle="Save"
+      :ok-disabled="!userEducation.school"
+      button-size="sm"
+      hide-header-close
+      return-focus="false"
+      @ok="handleEditEducation"
+      @hide="resetFormData"
+    >
+      <CreateOrEditEducation
+        v-model="userEducation"
+        :editEducation="userEducation"
         :handle-submit="handleAddNewEducation"
       />
     </b-modal>
@@ -114,7 +115,7 @@ export default {
   data() {
     return {
       educations: [],
-      userEducation: "",
+      userEducation: {},
       errors: null,
     };
   },
@@ -142,7 +143,11 @@ export default {
     async handleAddNewEducation(bvModalEvt) {
       bvModalEvt.preventDefault(); //prevent modal closing
       try {
-        await API.post("create-user-education", this.userEducation);
+        let valid =
+          this.userEducation.school && this.userEducation.school.trim();
+        if (!valid) return;
+        const res = await API.post("create-user-education", this.userEducation);
+        this.educations.unshift(res.data.education); // add new item in array
       } catch (error) {
         this.errors = error.response && error.response.data.errors;
       }
@@ -151,26 +156,45 @@ export default {
       this.$nextTick(() => {
         this.$bvModal.hide("add-education-modal");
       });
-      this.userEducation = "";
+
+      this.userEducation = {};
     },
 
     async handleEditEducation(bvModalEvt) {
       bvModalEvt.preventDefault(); //prevent modal closing
 
       try {
+        let valid =
+          this.userEducation.school && this.userEducation.school.trim();
+        if (!valid) return;
+
         await API.put(
           `user/${this.user.id}/edit-user-education/${this.userEducation.id}`,
           this.userEducation
         );
+        // update list
+        const index = this.educations.findIndex(
+          (i) => i.id === this.userEducation.id
+        );
+        this.educations.splice(index, 1, this.userEducation);
+
+        this.userEducation = {};
       } catch (error) {
         alert(error);
       }
-      this.userEducation = "";
+      //hide modal on submit
+      this.$nextTick(() => {
+        this.$bvModal.hide("edit-education-modal");
+      });
+      this.userEducation = {};
     },
 
-    async handleDeleteUserEducation(id) {
+    async handleDeleteUserEducation(education) {
       try {
-        await API.delete(`user/${this.user.id}/destroy-user-education/${id}`);
+        await API.delete(
+          `user/${this.user.id}/destroy-user-education/${education.id}`
+        );
+        this.educations.splice(this.educations.indexOf(education), 1); //delete item from list
       } catch (error) {
         alert(error);
       }
