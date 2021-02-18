@@ -1,72 +1,74 @@
 <template>
-  <b-form @submit.stop.prevent="handleSubmit">
-    <b-form-group label="School *" label-for="school">
-      <b-form-input
-        id="school"
-        type="text"
-        size="sm"
-        required
-        v-model="school"
-        @update="($event) => setField($event, 'school')"
-      ></b-form-input>
-    </b-form-group>
-    <b-form-group label="Degree" label-for="degree">
-      <b-form-input
-        id="degree"
-        type="text"
-        size="sm"
-        v-model="degree"
-        placeholder="Ex: Bachelor of Science, Computer Science & Engineering"
-        @update="($event) => setField($event, 'degree')"
-      ></b-form-input>
-    </b-form-group>
-    <b-form-group label="Degree/CGPA" label-for="grade">
-      <b-form-input
-        id="grade"
-        type="text"
-        size="sm"
-        placeholder="Ex: A- or 3.49"
-        v-model="grade"
-        @update="($event) => setField($event, 'grade')"
-      ></b-form-input>
-    </b-form-group>
-    <b-form-row>
-      <b-col>
-        <b-form-group label="Start Year">
-          <b-form-select
-            id="start_year"
-            @change="($event) => setField($event, 'start_year')"
-            v-model="start_year"
-          >
-            <b-form-select-option value="null">Year</b-form-select-option>
-            <b-form-select-option
-              v-for="year in years"
-              :value="year"
-              :key="year"
-              >{{ year }}</b-form-select-option
+  <spinner :loading="!loaded">
+    <b-form @submit.stop.prevent="handleSubmit">
+      <b-form-group label="School *" label-for="school">
+        <b-form-input
+          id="school"
+          type="text"
+          size="sm"
+          required
+          v-model="school"
+          @update="($event) => setField($event, 'school')"
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group label="Degree" label-for="degree">
+        <b-form-input
+          id="degree"
+          type="text"
+          size="sm"
+          v-model="degree"
+          placeholder="Ex: Bachelor of Science, Computer Science & Engineering"
+          @update="($event) => setField($event, 'degree')"
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group label="Degree/CGPA" label-for="grade">
+        <b-form-input
+          id="grade"
+          type="text"
+          size="sm"
+          placeholder="Ex: A- or 3.49"
+          v-model="grade"
+          @update="($event) => setField($event, 'grade')"
+        ></b-form-input>
+      </b-form-group>
+      <b-form-row>
+        <b-col>
+          <b-form-group label="Start Year">
+            <b-form-select
+              id="start_year"
+              @change="($event) => setField($event, 'start_year')"
+              v-model="start_year"
             >
-          </b-form-select>
-        </b-form-group>
-      </b-col>
-      <b-col>
-        <b-form-group label="End Year (or expected)">
-          <b-form-select
-            id="end_year"
-            @change="($event) => setField($event, 'end_year')"
-            v-model="end_year"
-          >
-            <b-form-select-option value="null">Year</b-form-select-option>
-            <b-form-select-option
-              v-for="year in years"
-              :value="year"
-              :key="year"
-              >{{ year }}</b-form-select-option
+              <b-form-select-option value="null">Year</b-form-select-option>
+              <b-form-select-option
+                v-for="year in years"
+                :value="year"
+                :key="year"
+                >{{ year }}</b-form-select-option
+              >
+            </b-form-select>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="End Year (or expected)">
+            <b-form-select
+              id="end_year"
+              @change="($event) => setField($event, 'end_year')"
+              v-model="end_year"
             >
-          </b-form-select>
-        </b-form-group>
-      </b-col>
-    </b-form-row>
-  </b-form>
+              <b-form-select-option value="null">Year</b-form-select-option>
+              <b-form-select-option
+                v-for="year in years"
+                :value="year"
+                :key="year"
+                >{{ year }}</b-form-select-option
+              >
+            </b-form-select>
+          </b-form-group>
+        </b-col>
+      </b-form-row>
+    </b-form>
+  </spinner>
 </template>
 
 <script>
@@ -79,6 +81,7 @@ import {
   BFormRow,
   BCol,
 } from "bootstrap-vue";
+import Spinner from "@/components/Spinner/Spinner";
 export default {
   name: "CreateOrEditEducation",
   components: {
@@ -89,6 +92,7 @@ export default {
     BFormSelectOption,
     BFormRow,
     BCol,
+    Spinner,
   },
   props: {
     handleSubmit: {
@@ -98,6 +102,9 @@ export default {
     editEducation: {
       type: Object,
       required: false,
+    },
+    loading: {
+      type: Boolean,
     },
   },
   data() {
@@ -150,6 +157,9 @@ export default {
         { length: year - 2000 },
         (value, index) => 2000 + index
       );
+    },
+    loaded: function () {
+      return !this.loading;
     },
   },
 };

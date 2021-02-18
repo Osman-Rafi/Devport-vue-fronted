@@ -11,50 +11,52 @@
       </b-button>
     </SectionHeader>
     <b-card class="d-flex">
-      <b-list-group-item
-        class="d-flex justify-content-between border-0"
-        v-for="(education, index) in educations"
-        :key="index"
-      >
-        <div class="d-flex">
-          <b-avatar
-            variant="primary"
-            size="4rem"
-            :text="education.school.charAt(0)"
-          ></b-avatar>
-          <div class="fs-0 ml-3">
-            <p class="font-weight-600 mb-0 fs-0">
-              {{ education.school }}
-            </p>
-            <p class="mb-0">{{ education.degree }}</p>
-            <p class="text-black-50 mb-0" v-if="education.start_year">
-              {{ education.start_year }} - {{ education.end_year }}
-            </p>
-            <hr v-if="index !== educations.length - 1" />
+      <spinner :loading="loading" type="grow">
+        <b-list-group-item
+          class="d-flex justify-content-between border-0"
+          v-for="(education, index) in educations"
+          :key="index"
+        >
+          <div class="d-flex">
+            <b-avatar
+              variant="primary"
+              size="4rem"
+              :text="education.school.charAt(0)"
+            ></b-avatar>
+            <div class="fs-0 ml-3">
+              <p class="font-weight-600 mb-0 fs-0">
+                {{ education.school }}
+              </p>
+              <p class="mb-0">{{ education.degree }}</p>
+              <p class="text-black-50 mb-0" v-if="education.start_year">
+                {{ education.start_year }} - {{ education.end_year }}
+              </p>
+              <hr v-if="index !== educations.length - 1" />
+            </div>
           </div>
-        </div>
-        <div>
-          <b-button
-            class="text-black-50"
-            variant="link"
-            v-b-modal.edit-education-modal
-            size="sm"
-            @click="userEducation = education"
-          >
-            <font-awesome-icon icon="pencil-alt" class="mr-1" />
-          </b-button>
-          <b-button
-            class="text-black-50"
-            variant="link"
-            size="sm"
-            @click="handleDeleteUserEducation(education)"
-          >
-            <span class="text-danger">
-              <font-awesome-icon :icon="['far', 'trash-alt']" class="mr-1" />
-            </span>
-          </b-button>
-        </div>
-      </b-list-group-item>
+          <div>
+            <b-button
+              class="text-black-50"
+              variant="link"
+              v-b-modal.edit-education-modal
+              size="sm"
+              @click="userEducation = education"
+            >
+              <font-awesome-icon icon="pencil-alt" class="mr-1" />
+            </b-button>
+            <b-button
+              class="text-black-50"
+              variant="link"
+              size="sm"
+              @click="handleDeleteUserEducation(education)"
+            >
+              <span class="text-danger">
+                <font-awesome-icon :icon="['far', 'trash-alt']" class="mr-1" />
+              </span>
+            </b-button>
+          </div>
+        </b-list-group-item>
+      </spinner>
     </b-card>
     <b-modal
       id="add-education-modal"
@@ -89,6 +91,7 @@
         v-model="userEducation"
         :editEducation="userEducation"
         :handle-submit="handleAddNewEducation"
+        :loading="loading"
       />
     </b-modal>
   </div>
@@ -107,6 +110,7 @@ import {
   BAvatar,
   ModalPlugin,
 } from "bootstrap-vue";
+import Spinner from "@/components/Spinner/Spinner";
 
 Vue.use(ModalPlugin);
 
@@ -117,8 +121,10 @@ export default {
       educations: [],
       userEducation: {},
       errors: null,
+      loading: false,
     };
   },
+
   components: {
     SectionHeader,
     CreateOrEditEducation,
@@ -126,6 +132,7 @@ export default {
     BCard,
     BListGroupItem,
     BAvatar,
+    Spinner,
   },
   created() {
     this.getUserEducations();
@@ -133,8 +140,10 @@ export default {
   methods: {
     async getUserEducations() {
       try {
+        this.loading = true;
         const userEducations = await API.get("user-educations");
         this.educations = userEducations.data.userEducation;
+        this.loading = false;
       } catch (error) {
         console.log(error);
       }
@@ -143,11 +152,13 @@ export default {
     async handleAddNewEducation(bvModalEvt) {
       bvModalEvt.preventDefault(); //prevent modal closing
       try {
+        this.loading = true;
         let valid =
           this.userEducation.school && this.userEducation.school.trim();
         if (!valid) return;
         const res = await API.post("create-user-education", this.userEducation);
         this.educations.unshift(res.data.education); // add new item in array
+        this.loading = false;
       } catch (error) {
         this.errors = error.response && error.response.data.errors;
       }
@@ -164,6 +175,7 @@ export default {
       bvModalEvt.preventDefault(); //prevent modal closing
 
       try {
+        this.loading = true;
         let valid =
           this.userEducation.school && this.userEducation.school.trim();
         if (!valid) return;
@@ -178,6 +190,7 @@ export default {
         );
         this.educations.splice(index, 1, this.userEducation);
 
+        this.loading = false;
         this.userEducation = {};
       } catch (error) {
         alert(error);
@@ -191,10 +204,12 @@ export default {
 
     async handleDeleteUserEducation(education) {
       try {
+        this.loading = true;
         await API.delete(
           `user/${this.user.id}/destroy-user-education/${education.id}`
         );
         this.educations.splice(this.educations.indexOf(education), 1); //delete item from list
+        this.loading = false;
       } catch (error) {
         alert(error);
       }
