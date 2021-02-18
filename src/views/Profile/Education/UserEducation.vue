@@ -109,10 +109,13 @@ import {
   BListGroupItem,
   BAvatar,
   ModalPlugin,
+  BVToastPlugin,
 } from "bootstrap-vue";
 import Spinner from "@/components/Spinner/Spinner";
+import { notificationToast } from "@/components/NotificationToast";
 
 Vue.use(ModalPlugin);
+Vue.use(BVToastPlugin);
 
 export default {
   name: "UserEducation",
@@ -145,7 +148,15 @@ export default {
         this.educations = userEducations.data.userEducation;
         this.loading = false;
       } catch (error) {
-        console.log(error);
+        notificationToast(
+          this,
+          true,
+          "Opps!",
+          "Something went wrong",
+          "danger",
+          "5000",
+          "top-left"
+        );
       }
     },
 
@@ -159,6 +170,13 @@ export default {
         const res = await API.post("create-user-education", this.userEducation);
         this.educations.unshift(res.data.education); // add new item in array
         this.loading = false;
+        notificationToast(
+          this,
+          true,
+          "Success !!",
+          "Education Added",
+          "success"
+        );
       } catch (error) {
         this.errors = error.response && error.response.data.errors;
       }
@@ -191,6 +209,13 @@ export default {
         this.educations.splice(index, 1, this.userEducation);
 
         this.loading = false;
+        notificationToast(
+          this,
+          true,
+          "Success !!",
+          "Education Updated",
+          "success"
+        );
         this.userEducation = {};
       } catch (error) {
         alert(error);
@@ -210,13 +235,25 @@ export default {
         );
         this.educations.splice(this.educations.indexOf(education), 1); //delete item from list
         this.loading = false;
+        notificationToast(
+          this,
+          true,
+          "Success !!",
+          "Education Deleted",
+          "danger"
+        );
       } catch (error) {
-        alert(error);
+        notificationToast(
+          this,
+          true,
+          "Opps!",
+          "Something went wrong",
+          "danger",
+          "5000",
+          "top-left"
+        );
+        console.log(error);
       }
-    },
-
-    resetFormData() {
-      this.education = {};
     },
   },
   computed: {
