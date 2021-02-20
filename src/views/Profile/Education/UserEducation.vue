@@ -10,54 +10,58 @@
         <font-awesome-icon icon="plus" class="mr-1" />
       </b-button>
     </SectionHeader>
-    <b-card class="d-flex">
-      <spinner :loading="loading" type="grow">
-        <b-list-group-item
-          class="d-flex justify-content-between border-0"
-          v-for="(education, index) in educations"
-          :key="index"
-        >
-          <div class="d-flex">
-            <b-avatar
-              variant="primary"
-              size="4rem"
-              :text="education.school.charAt(0)"
-            ></b-avatar>
-            <div class="fs-0 ml-3">
-              <p class="font-weight-600 mb-0 fs-0">
-                {{ education.school }}
-              </p>
-              <p class="mb-0">{{ education.degree }}</p>
-              <p class="text-black-50 mb-0" v-if="education.start_year">
-                {{ education.start_year }} - {{ education.end_year }}
-              </p>
-              <hr v-if="index !== educations.length - 1" />
+    <spinner :loading="loading" type="grow">
+      <template v-if="educations.length === 0">
+        <EmptyField title="Add your educations here with proper details" />
+      </template>
+      <template v-else>
+        <b-card class="d-flex card-shadow">
+          <b-list-group-item
+            class="d-flex justify-content-between border-0"
+            v-for="(education, index) in educations"
+            :key="index"
+          >
+            <div class="d-flex">
+              <b-avatar
+                variant="primary"
+                size="4rem"
+                src="https://www.sinceindependence.com/wp-content/uploads/2019/06/Google-logo-1-resized.jpg"
+              ></b-avatar>
+              <div class="fs-0 ml-3">
+                <p class="font-weight-600 mb-0 fs-0">
+                  {{ education.school }}
+                </p>
+                <p class="mb-0 fs--1 font-weight-600 text-black-70">
+                  {{ education.degree }}
+                </p>
+                <p
+                  class="text-black-50 mb-0 text-black-60 fs--1"
+                  v-if="education.start_year"
+                >
+                  Form {{ education.start_year }} to {{ education.end_year }}
+                </p>
+                <div class="d-flex mt-1">
+                  <b-button
+                    variant="link"
+                    class="p-0 my-0 ml-0 no-underline fs--1 mr-3 text-blue font-weight-600"
+                    v-b-modal.edit-education-modal
+                    @click="userEducation = education"
+                    >Edit or add details</b-button
+                  >
+                  <b-button
+                    variant="link"
+                    class="p-0 m-0 no-underline fs--1 text-blue font-weight-600"
+                    @click="handleDeleteUserEducation(education)"
+                    >Remove</b-button
+                  >
+                </div>
+                <hr v-if="index !== educations.length - 1" />
+              </div>
             </div>
-          </div>
-          <div>
-            <b-button
-              class="text-black-50"
-              variant="link"
-              v-b-modal.edit-education-modal
-              size="sm"
-              @click="userEducation = education"
-            >
-              <font-awesome-icon icon="pencil-alt" class="mr-1" />
-            </b-button>
-            <b-button
-              class="text-black-50"
-              variant="link"
-              size="sm"
-              @click="handleDeleteUserEducation(education)"
-            >
-              <span class="text-danger">
-                <font-awesome-icon :icon="['far', 'trash-alt']" class="mr-1" />
-              </span>
-            </b-button>
-          </div>
-        </b-list-group-item>
-      </spinner>
-    </b-card>
+          </b-list-group-item>
+        </b-card>
+      </template>
+    </spinner>
     <b-modal
       id="add-education-modal"
       title="Add Education"
@@ -85,7 +89,6 @@
       hide-header-close
       return-focus="false"
       @ok="handleEditEducation"
-      @hide="resetFormData"
     >
       <CreateOrEditEducation
         v-model="userEducation"
@@ -113,6 +116,7 @@ import {
 } from "bootstrap-vue";
 import Spinner from "@/components/Spinner/Spinner";
 import { notificationToast } from "@/components/NotificationToast";
+import EmptyField from "@/components/Cards/EmptyField";
 
 Vue.use(ModalPlugin);
 Vue.use(BVToastPlugin);
@@ -136,6 +140,7 @@ export default {
     BListGroupItem,
     BAvatar,
     Spinner,
+    EmptyField,
   },
   created() {
     this.getUserEducations();
@@ -216,7 +221,7 @@ export default {
           "Education Updated",
           "success"
         );
-        this.userEducation = {};
+        this.resetFormData();
       } catch (error) {
         alert(error);
       }
@@ -255,6 +260,10 @@ export default {
         console.log(error);
       }
     },
+
+    resetFormData() {
+      this.userEducation = {};
+    },
   },
   computed: {
     ...mapState({
@@ -267,5 +276,8 @@ export default {
 <style scoped lang="scss">
 .title-border {
   border-bottom: 1px solid #000;
+}
+.no-underline {
+  text-decoration: none !important;
 }
 </style>

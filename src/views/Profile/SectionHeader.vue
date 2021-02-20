@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-between pt-4 border-bottom mb-3">
+  <div class="d-flex justify-content-between pt-4 border-bottom mb-4">
     <p class="font-weight-700 fs--1 mb-0 title-border px-2">
       {{ sectionTitle }}
     </p>
