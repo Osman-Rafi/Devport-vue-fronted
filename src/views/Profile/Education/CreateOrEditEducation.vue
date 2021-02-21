@@ -10,6 +10,7 @@
           v-model="school"
           @update="($event) => setField($event, 'school')"
         ></b-form-input>
+        <CreateEducationInstitute />
       </b-form-group>
       <b-form-group label="Degree" label-for="degree">
         <b-form-input
@@ -82,6 +83,7 @@ import {
   BCol,
 } from "bootstrap-vue";
 import Spinner from "@/components/Spinner/Spinner";
+import CreateEducationInstitute from "./CreateEducationInstitute";
 export default {
   name: "CreateOrEditEducation",
   components: {
@@ -93,6 +95,7 @@ export default {
     BFormRow,
     BCol,
     Spinner,
+    CreateEducationInstitute,
   },
   props: {
     handleSubmit: {
