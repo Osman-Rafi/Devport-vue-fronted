@@ -8,7 +8,7 @@ const injectAccessToken = (config) => {
 };
 
 const config = {
-  baseURL: "http://localhost:8000/api", //TODO: enviroment variable
+  baseURL: process.env.VUE_APP_API_ROOT_PATH,
 };
 
 const API = axios.create(config);
