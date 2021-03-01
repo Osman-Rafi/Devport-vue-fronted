@@ -1,17 +1,10 @@
 <template>
   <spinner :loading="!loaded">
     <b-form @submit.stop.prevent="handleSubmit">
-      <b-form-group label="School *" label-for="school">
-        <b-form-input
-          id="school"
-          type="text"
-          size="sm"
-          required
-          v-model="school"
-          @update="($event) => setField($event, 'school')"
-        ></b-form-input>
-        <CreateEducationInstitute />
+      <b-form-group label-for="school">
+        <SearchInstitution v-model="institution" />
       </b-form-group>
+
       <b-form-group label="Degree" label-for="degree">
         <b-form-input
           id="degree"
@@ -83,7 +76,7 @@ import {
   BCol,
 } from "bootstrap-vue";
 import Spinner from "@/components/Spinner/Spinner";
-import CreateEducationInstitute from "./CreateEducationInstitute";
+import SearchInstitution from "./SearchInstitution/SearchInstitution";
 export default {
   name: "CreateOrEditEducation",
   components: {
@@ -95,7 +88,7 @@ export default {
     BFormRow,
     BCol,
     Spinner,
-    CreateEducationInstitute,
+    SearchInstitution,
   },
   props: {
     handleSubmit: {
@@ -112,8 +105,7 @@ export default {
   },
   data() {
     return {
-      id: "",
-      school: "",
+      institution: "",
       degree: "",
       grade: "",
       start_year: null,
@@ -122,8 +114,7 @@ export default {
   },
   created() {
     if (this.editEducation) {
-      this.id = this.editEducation.id;
-      this.school = this.editEducation.school;
+      this.institution_id = this.editEducation.institution_id;
       this.degree = this.editEducation.degree;
       this.grade = this.editEducation.grade;
       this.start_year = this.editEducation.start_year;
@@ -134,8 +125,7 @@ export default {
   },
   methods: {
     setField(value, field) {
-      if (field === "school") this.school = value;
-      else if (field === "degree") this.degree = value;
+      if (field === "degree") this.degree = value;
       else if (field === "grade") this.grade = value;
       else if (field === "start_year") this.start_year = value;
       else if (field === "end_year") this.end_year = value;
@@ -144,8 +134,7 @@ export default {
     },
     emitFormData() {
       this.$emit("input", {
-        id: this.id,
-        school: this.school,
+        institution_id: this.institution.id,
         degree: this.degree,
         grade: this.grade,
         start_year: this.start_year,
@@ -163,6 +152,11 @@ export default {
     },
     loaded: function () {
       return !this.loading;
+    },
+  },
+  watch: {
+    institution: function () {
+      this.emitFormData();
     },
   },
 };

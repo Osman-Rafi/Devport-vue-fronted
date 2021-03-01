@@ -67,7 +67,7 @@
       title="Add Education"
       cancelTitle="Discard"
       okTitle="Save"
-      :ok-disabled="!userEducation.school"
+      :ok-disabled="!userEducation.institution_id"
       button-size="sm"
       hide-header-close
       return-focus="false"
@@ -107,12 +107,12 @@ import CreateOrEditEducation from "./CreateOrEditEducation";
 import API from "../../../api/Api";
 import { mapState } from "vuex";
 import {
+  BAvatar,
   BButton,
   BCard,
   BListGroupItem,
-  BAvatar,
-  ModalPlugin,
   BVToastPlugin,
+  ModalPlugin,
 } from "bootstrap-vue";
 import Spinner from "@/components/Spinner/Spinner";
 import { notificationToast } from "@/components/NotificationToast";

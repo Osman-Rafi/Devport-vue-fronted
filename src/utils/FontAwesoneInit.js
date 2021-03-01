@@ -10,6 +10,9 @@ import {
   faUserFriends,
   faPlus,
   faPencilAlt,
+  faUniversity,
+  faChevronRight,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faUsps } from "@fortawesome/free-brands-svg-icons";
@@ -38,5 +41,8 @@ library.add(
   faUsps,
   faPlus,
   faPencilAlt,
-  faTrashAlt
+  faTrashAlt,
+  faUniversity,
+  faChevronRight,
+  faTimes
 );

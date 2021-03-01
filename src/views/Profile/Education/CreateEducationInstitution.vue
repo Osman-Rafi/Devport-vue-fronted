@@ -3,16 +3,16 @@
     <b-button
       v-b-modal.add-institution
       variant="link"
-      class="fs--1 text-decoration-none p-0"
-      >Can't find your institute ? Add one</b-button
+      class="fs--1 text-left p-0 text-decoration-none text-black-70"
     >
+      <can-not-find-institution-button />
+    </b-button>
     <b-modal
       id="add-institution"
       title="Add new institute"
       cancelTitle="Discard"
       okTitle="Save"
       button-size="sm"
-      size="lg"
       return-focus="false"
       hide-header-close
       @ok="handleCreateNewInstitution"
@@ -86,8 +86,9 @@ import FileUploader from "@/components/FileUploader/FileUploader";
 import API from "@/api/Api";
 import { notificationToast } from "@/components/NotificationToast";
 import Spinner from "@/components/Spinner/Spinner";
+import CanNotFindInstitutionButton from "./SearchInstitution/CanNotFindInstitutionButton";
 export default {
-  name: "CreateEducationInstitute",
+  name: "CreateEducationInstitution",
   components: {
     BForm,
     BFormGroup,
@@ -99,6 +100,7 @@ export default {
     BFormTextarea,
     FileUploader,
     Spinner,
+    CanNotFindInstitutionButton,
   },
   data() {
     return {
@@ -140,7 +142,13 @@ export default {
         this.loading = true;
         await this.handleUploadInstitutionLogo();
         const res = await API.post("create-education-institute", this.formData);
-        notificationToast(this, true, "Oppss !!", res.data.message, "success");
+        notificationToast(
+          this,
+          true,
+          "Success !!",
+          res.data.message,
+          "success"
+        );
         this.resetFormData();
         this.loading = false;
       } catch (error) {
