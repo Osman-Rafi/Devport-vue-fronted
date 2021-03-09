@@ -84,6 +84,11 @@ export default {
     CreateEducationInstitution,
     BButton,
   },
+  props: {
+    institution: {
+      required: false,
+    },
+  },
   data() {
     return {
       defaultLogo,
@@ -91,6 +96,11 @@ export default {
       institution_suggestions: null,
       selectedInstitution: null,
     };
+  },
+  created() {
+    if (this.institution) {
+      this.selectedInstitution = this.institution;
+    }
   },
   methods: {
     async getEducationInstitutionsSuggestions() {

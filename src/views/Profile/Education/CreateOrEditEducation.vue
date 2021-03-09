@@ -2,7 +2,7 @@
   <spinner :loading="!loaded">
     <b-form @submit.stop.prevent="handleSubmit">
       <b-form-group label-for="school">
-        <SearchInstitution v-model="institution" />
+        <SearchInstitution v-model="institution" :institution="institution" />
       </b-form-group>
 
       <b-form-group label="Degree" label-for="degree">
@@ -105,6 +105,7 @@ export default {
   },
   data() {
     return {
+      id: null,
       institution: "",
       degree: "",
       grade: "",
@@ -114,7 +115,8 @@ export default {
   },
   created() {
     if (this.editEducation) {
-      this.institution_id = this.editEducation.institution_id;
+      this.id = this.editEducation.id;
+      this.institution = this.editEducation.education_institution;
       this.degree = this.editEducation.degree;
       this.grade = this.editEducation.grade;
       this.start_year = this.editEducation.start_year;
@@ -134,11 +136,16 @@ export default {
     },
     emitFormData() {
       this.$emit("input", {
+        id: this.id,
         institution_id: this.institution.id,
         degree: this.degree,
         grade: this.grade,
         start_year: this.start_year,
         end_year: this.end_year,
+        education_institution: {
+          institution_name: this.institution.institution_name,
+          logo: this.institution.logo,
+        },
       });
     },
   },

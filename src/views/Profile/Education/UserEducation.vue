@@ -25,11 +25,11 @@
               <b-avatar
                 variant="primary"
                 size="4rem"
-                src="https://www.sinceindependence.com/wp-content/uploads/2019/06/Google-logo-1-resized.jpg"
+                :src="education.education_institution.logo"
               ></b-avatar>
               <div class="fs-0 ml-3">
                 <p class="font-weight-600 mb-0 fs-0">
-                  {{ education.school }}
+                  {{ education.education_institution.institution_name }}
                 </p>
                 <p class="mb-0 fs--1 font-weight-600 text-black-70">
                   {{ education.degree }}
@@ -51,7 +51,8 @@
                   <b-button
                     variant="link"
                     class="p-0 m-0 no-underline fs--1 text-blue font-weight-600"
-                    @click="handleDeleteUserEducation(education)"
+                    v-b-modal.delete-education
+                    @click="userEducation = education"
                     >Remove</b-button
                   >
                 </div>
@@ -67,7 +68,6 @@
       title="Add Education"
       cancelTitle="Discard"
       okTitle="Save"
-      :ok-disabled="!userEducation.institution_id"
       button-size="sm"
       hide-header-close
       return-focus="false"
@@ -84,7 +84,7 @@
       title="Edit Education"
       cancelTitle="Discard"
       okTitle="Save"
-      :ok-disabled="!userEducation.school"
+      :ok-disabled="!userEducation.institution_id"
       button-size="sm"
       hide-header-close
       return-focus="false"
@@ -96,6 +96,17 @@
         :handle-submit="handleAddNewEducation"
         :loading="loading"
       />
+    </b-modal>
+    <b-modal
+      id="delete-education"
+      title="Delete Education ?"
+      @ok="handleDeleteUserEducation(userEducation)"
+      ok-variant="outline-danger"
+      cancel-variant="outline-secondary"
+      ok-title="Delete"
+      button-size="sm"
+    >
+      <p>This education will be deleted permanently.</p>
     </b-modal>
   </div>
 </template>
@@ -149,7 +160,9 @@ export default {
     async getUserEducations() {
       try {
         this.loading = true;
-        const userEducations = await API.get("user-educations");
+        const userEducations = await API.get(
+          `user-educations/user/${this.user.id}`
+        );
         this.educations = userEducations.data.userEducation;
         this.loading = false;
       } catch (error) {
@@ -167,13 +180,14 @@ export default {
 
     async handleAddNewEducation(bvModalEvt) {
       bvModalEvt.preventDefault(); //prevent modal closing
+      let education = this.userEducation;
       try {
         this.loading = true;
-        let valid =
-          this.userEducation.school && this.userEducation.school.trim();
-        if (!valid) return;
         const res = await API.post("create-user-education", this.userEducation);
-        this.educations.unshift(res.data.education); // add new item in array
+        if (res.status === 200) {
+          education = { ...education, id: res.data.education.id };
+          this.educations.unshift(education); // add new item in array
+        }
         this.loading = false;
         notificationToast(
           this,
@@ -183,7 +197,14 @@ export default {
           "success"
         );
       } catch (error) {
-        this.errors = error.response && error.response.data.errors;
+        notificationToast(
+          this,
+          true,
+          "Opps!",
+          "Something went wrong",
+          "danger",
+          "5000"
+        );
       }
 
       //hide modal on submit
@@ -199,10 +220,6 @@ export default {
 
       try {
         this.loading = true;
-        let valid =
-          this.userEducation.school && this.userEducation.school.trim();
-        if (!valid) return;
-
         await API.put(
           `user/${this.user.id}/edit-user-education/${this.userEducation.id}`,
           this.userEducation
@@ -223,7 +240,15 @@ export default {
         );
         this.resetFormData();
       } catch (error) {
-        alert(error);
+        notificationToast(
+          this,
+          true,
+          "Opps!",
+          "Something went wrong",
+          "danger",
+          "5000",
+          "top-left"
+        );
       }
       //hide modal on submit
       this.$nextTick(() => {
@@ -259,6 +284,7 @@ export default {
         );
         console.log(error);
       }
+      this.resetFormData();
     },
 
     resetFormData() {
