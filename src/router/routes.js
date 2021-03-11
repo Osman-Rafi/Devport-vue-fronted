@@ -1,18 +1,20 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import DashboardLayout from "../views/Layout/Dashboard/DashboardLayout";
+import DashboardLayout from "../modules/Layout/Dashboard/DashboardLayout";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/login",
-    component: () => import("../views/Auth/Login"),
+    component: () =>
+      import(/*webpackChunkName: "login"*/ "../modules/Auth/Login"),
     meta: { hideForAuth: true },
   },
   {
     path: "/register",
-    component: () => import("../views/Auth/Register"),
+    component: () =>
+      import(/*webpackChunkName: "register"*/ "../modules/Auth/Register"),
     meta: { hideForAuth: true },
   },
   {
@@ -23,11 +25,13 @@ const routes = [
     children: [
       {
         path: "/profile",
-        component: () => import("../views/Profile/Profile"),
+        component: () =>
+          import(/*webpackChunkName: "profile"*/ "../modules/Profile/Profile"),
       },
       {
         path: "blog",
-        component: () => import("../views/Blog/RecentBlogPost"),
+        component: () =>
+          import(/*webpackChunkName: "blog"*/ "../modules/Blog/RecentBlogPost"),
       },
     ],
   },

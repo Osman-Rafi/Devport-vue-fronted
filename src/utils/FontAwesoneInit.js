@@ -23,6 +23,7 @@ import {
   faBell,
   faEnvelope,
   faTrashAlt,
+  faBuilding,
 } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
@@ -44,5 +45,6 @@ library.add(
   faTrashAlt,
   faUniversity,
   faChevronRight,
-  faTimes
+  faTimes,
+  faBuilding
 );

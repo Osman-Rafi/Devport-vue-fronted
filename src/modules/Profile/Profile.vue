@@ -13,7 +13,7 @@ import { mapState } from "vuex";
 import { BRow, BCol } from "bootstrap-vue";
 import UserSummary from "./UserSummary";
 import UserEducation from "./Education/UserEducation";
-import UserOrganizations from "./Organizations/UserOrganizations";
+import UserOrganizations from "./Experiences/UserExperiences";
 export default {
   name: "Profile",
   title() {

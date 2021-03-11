@@ -1,36 +1,37 @@
 <template>
   <div>
     <b-button
-      v-b-modal.add-institution
+      v-b-modal.add-organization
       variant="link"
       class="fs--1 text-left p-0 text-decoration-none text-black-70"
     >
-      <can-not-find-institution-button />
+      <can-not-find-organization />
     </b-button>
     <b-modal
-      id="add-institution"
-      title="Add new institute"
+      id="add-organization"
+      title="Add Organization"
       cancelTitle="Discard"
       okTitle="Save"
       button-size="sm"
       return-focus="false"
       hide-header-close
-      @ok="handleCreateNewInstitution"
+      @ok="handleCreateNewOrganization"
+      :ok-disabled="!formData.name"
     >
       <spinner :loading="loading" spinnerType="grow">
-        <b-form action="">
+        <b-form>
           <FileUploader
             v-model="logo"
             label="Drop institution logo here..."
             file-name="logo"
           />
-          <b-form-group label="Institute Name *" label-for="school">
+          <b-form-group label="Organization Name *" label-for="organization">
             <b-form-input
-              id="institute-name"
+              id="organization-name"
               type="text"
               size="sm"
               required
-              v-model="formData.institution_name"
+              v-model="formData.name"
             ></b-form-input>
           </b-form-group>
           <b-form-row>
@@ -55,6 +56,15 @@
               </b-form-group>
             </b-col>
           </b-form-row>
+          <b-form-group label="Organization Website" label-for="website">
+            <b-form-input
+              id="website"
+              type="url"
+              size="sm"
+              required
+              v-model="formData.website"
+            ></b-form-input>
+          </b-form-group>
           <b-form-textarea
             id="description"
             v-model="formData.description"
@@ -71,61 +81,56 @@
 </template>
 
 <script>
+import CanNotFindOrganization from "./SearchOrganization/CanNotFindOrganization";
+import FileUploader from "@/common/components/FileUploader/FileUploader";
+import Spinner from "@/common/components/Spinner/Spinner";
 import {
   BForm,
   BFormGroup,
   BFormInput,
-  BButton,
   BFormRow,
   BCol,
   BFormDatalist,
   BFormTextarea,
 } from "bootstrap-vue";
 import CountryData from "country-region-data";
-import FileUploader from "@/components/FileUploader/FileUploader";
+import { notificationToast } from "@/common/components/NotificationToast";
 import API from "@/api/Api";
-import { notificationToast } from "@/components/NotificationToast";
-import Spinner from "@/components/Spinner/Spinner";
-import CanNotFindInstitutionButton from "./SearchInstitution/CanNotFindInstitutionButton";
 export default {
-  name: "CreateEducationInstitution",
+  name: "CreateOrganization",
   components: {
+    CanNotFindOrganization,
+    FileUploader,
+    Spinner,
     BForm,
     BFormGroup,
     BFormInput,
-    BButton,
     BFormRow,
     BCol,
     BFormDatalist,
     BFormTextarea,
-    FileUploader,
-    Spinner,
-    CanNotFindInstitutionButton,
   },
   data() {
     return {
       formData: {
-        institution_name: "",
-        country: "Bangladesh",
-        city: "Dhaka",
+        name: "",
+        country: "",
+        city: "",
+        website: "",
         description: "",
-        logo_url: "",
+        logoUrl: "",
       },
       logo: {},
-      country_data: CountryData,
-      country_search: "",
-      country_selected: "",
       loading: false,
+      country_data: CountryData,
+      country_selected: "",
     };
   },
   methods: {
-    async handleUploadInstitutionLogo() {
+    async handleUploadOrganizationLogo() {
       try {
-        const res = await API.post(
-          "create-education-institute-logo",
-          this.logo
-        );
-        this.formData.logo_url = res.data.path;
+        const res = await API.post("create-organization-logo", this.logo);
+        return res.data.path;
       } catch (error) {
         notificationToast(
           this,
@@ -136,12 +141,13 @@ export default {
         );
       }
     },
-    async handleCreateNewInstitution(bvModalEvt) {
+    async handleCreateNewOrganization(bvModalEvt) {
       bvModalEvt.preventDefault(); //prevent modal closing
       try {
         this.loading = true;
-        await this.handleUploadInstitutionLogo();
-        const res = await API.post("create-education-institute", this.formData);
+        const logoPath = await this.handleUploadOrganizationLogo();
+        this.formData.logoUrl = logoPath;
+        const res = await API.post("create-organization", this.formData);
         notificationToast(
           this,
           true,
@@ -152,17 +158,11 @@ export default {
         this.resetFormData();
         this.loading = false;
       } catch (error) {
-        notificationToast(
-          this,
-          true,
-          "Oppss !!",
-          "Something went wrong",
-          "danger"
-        );
+        notificationToast(this, true, "Success !!", "success");
       }
       //hide modal on submit
       this.$nextTick(() => {
-        this.$bvModal.hide("add-institution");
+        this.$bvModal.hide("add-organization");
       });
     },
     resetFormData() {
@@ -171,7 +171,7 @@ export default {
         country: "Bangladesh",
         city: "Dhaka",
         description: "",
-        logo_url: "",
+        logoUrl: "",
       };
       this.logo = {};
     },
