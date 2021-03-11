@@ -6,7 +6,7 @@ import store from "./store";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import "./utils/FontAwesoneInit";
-import titleMixin from "./mixins/titleMixin";
+import titleMixin from "./common/mixins/titleMixin";
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.mixin(titleMixin);

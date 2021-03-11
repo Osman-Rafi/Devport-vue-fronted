@@ -125,9 +125,9 @@ import {
   BVToastPlugin,
   ModalPlugin,
 } from "bootstrap-vue";
-import Spinner from "@/components/Spinner/Spinner";
-import { notificationToast } from "@/components/NotificationToast";
-import EmptyField from "@/components/Cards/EmptyField";
+import Spinner from "@/common/components/Spinner/Spinner";
+import { notificationToast } from "@/common/components/NotificationToast";
+import EmptyField from "@/common/components/Cards/EmptyField";
 
 Vue.use(ModalPlugin);
 Vue.use(BVToastPlugin);

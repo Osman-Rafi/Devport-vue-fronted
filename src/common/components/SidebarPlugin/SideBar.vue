@@ -4,7 +4,7 @@
     id="sidenav-main"
   >
     <b-img
-      :src="require('../../assets/img/logo/Devport-logo.png')"
+      :src="require('../../../assets/img/logo/Devport-logo.png')"
       fluid
     ></b-img>
     <div class="pt-4 ml-4">

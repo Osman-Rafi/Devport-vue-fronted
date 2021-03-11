@@ -82,7 +82,7 @@ import {
   BButton,
 } from "bootstrap-vue";
 
-import ErrorMessage from "../../components/FormFields/ErrorMessage";
+import ErrorMessage from "../../common/components/FormFields/ErrorMessage";
 
 export default {
   name: "Register",

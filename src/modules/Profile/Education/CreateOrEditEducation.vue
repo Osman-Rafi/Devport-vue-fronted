@@ -75,7 +75,7 @@ import {
   BFormRow,
   BCol,
 } from "bootstrap-vue";
-import Spinner from "@/components/Spinner/Spinner";
+import Spinner from "@/common/components/Spinner/Spinner";
 import SearchInstitution from "./SearchInstitution/SearchInstitution";
 export default {
   name: "CreateOrEditEducation",

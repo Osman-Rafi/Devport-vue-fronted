@@ -4,7 +4,7 @@
       <div class="d-flex">
         <div class="pl-2">
           <b-avatar variant="warning">
-            <font-awesome-icon icon="university" class="fa-2x" />
+            <font-awesome-icon :icon="['far', 'building']" class="fa-2x" />
           </b-avatar>
         </div>
         <div class="pl-3">
@@ -19,7 +19,7 @@
 <script>
 import { BListGroup, BListGroupItem, BAvatar } from "bootstrap-vue";
 export default {
-  name: "CanNotFindButton",
+  name: "CanNotFindInstitution",
   components: {
     BListGroup,
     BListGroupItem,

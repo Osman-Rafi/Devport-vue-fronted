@@ -21,7 +21,7 @@
           class="mb-3"
           :class="institution_suggestions === null ? 'd-none' : ''"
         >
-          <SearchListItem
+          <institution-summary
             v-model="selectedInstitution"
             :institution="suggestion"
             v-on="$listeners"
@@ -68,7 +68,7 @@ import {
   BAvatar,
   BButton,
 } from "bootstrap-vue";
-import SearchListItem from "./SearchListItem";
+import InstitutionSummary from "./InstitutionSummary";
 import API from "@/api/Api";
 import CreateEducationInstitution from "../CreateEducationInstitution";
 import defaultLogo from "@/assets/img/placeholder/institution.jpg";
@@ -78,7 +78,7 @@ export default {
     BFormGroup,
     BFormInput,
     BCard,
-    SearchListItem,
+    InstitutionSummary,
     BListGroupItem,
     BAvatar,
     CreateEducationInstitution,

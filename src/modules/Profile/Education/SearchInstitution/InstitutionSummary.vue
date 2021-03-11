@@ -33,7 +33,7 @@
 import { BListGroup, BListGroupItem, BAvatar } from "bootstrap-vue";
 import defaultLogo from "@/assets/img/placeholder/institution.jpg";
 export default {
-  name: "SearchListItem",
+  name: "InstitutionSummary",
   components: {
     BListGroup,
     BListGroupItem,
