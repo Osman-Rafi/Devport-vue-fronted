@@ -2,7 +2,7 @@
   <b-list-group
     flush
     @click="
-      selectInstitutions(
+      selectInstitution(
         institution.id,
         institution.institution_name,
         institution.logo
@@ -52,7 +52,7 @@ export default {
     };
   },
   methods: {
-    selectInstitutions(id, institution_name, logo) {
+    selectInstitution(id, institution_name, logo) {
       this.selectedInstitution = {
         id: id,
         institution_name: institution_name,

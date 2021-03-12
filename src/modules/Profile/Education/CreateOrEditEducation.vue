@@ -1,10 +1,9 @@
 <template>
   <spinner :loading="!loaded">
+    <b-form-group>
+      <SearchInstitution v-model="institution" :institution="institution" />
+    </b-form-group>
     <b-form @submit.stop.prevent="handleSubmit">
-      <b-form-group label-for="school">
-        <SearchInstitution v-model="institution" :institution="institution" />
-      </b-form-group>
-
       <b-form-group label="Degree" label-for="degree">
         <b-form-input
           id="degree"
