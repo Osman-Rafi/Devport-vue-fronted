@@ -1,6 +1,11 @@
 <template>
   <spinner :loading="loading">
-    <search-organization />
+    <b-form-group>
+      <search-organization
+        v-model="formData.organization"
+        :organization="formData.organization"
+      />
+    </b-form-group>
     <b-form @submit.stop.prevent="handleSubmit">
       <b-form-group label="Designation" label-for="designation">
         <b-form-input
@@ -31,15 +36,20 @@
         </b-col>
         <b-col>
           <b-form-group label="End Year (or expected)">
-            <b-form-select id="lastYear" v-model="formData.endYear">
-              <b-form-select-option value="null">Year</b-form-select-option>
-              <b-form-select-option
-                v-for="year in years"
-                :value="year"
-                :key="year"
-                >{{ year }}</b-form-select-option
-              >
-            </b-form-select>
+            <div v-if="formData.currentlyWorking === 'true' ? '' : 'd-none'">
+              <b-form-select id="lastYear" v-model="formData.endYear">
+                <b-form-select-option value="null">Year</b-form-select-option>
+                <b-form-select-option
+                  v-for="year in years"
+                  :value="year"
+                  :key="year"
+                  >{{ year }}</b-form-select-option
+                >
+              </b-form-select>
+            </div>
+            <div v-else>
+              <p class="fs--1 ml-1 font-weight-500">Currently working</p>
+            </div>
           </b-form-group>
         </b-col>
       </b-form-row>
@@ -94,12 +104,12 @@ export default {
   data() {
     return {
       formData: {
-        name: "",
+        organization: {},
         designation: "",
         type: null,
         startYear: null,
         endYear: null,
-        currentlyWorking: false,
+        currentlyWorking: "false",
       },
       employmentTypes: [
         { value: null, text: "-" },
@@ -122,6 +132,14 @@ export default {
       );
     },
   },
+  methods: {
+    emitFormData() {
+      this.$emit("input", this.formData);
+    },
+  },
+  watch:{
+    this.
+  }
 };
 </script>
 

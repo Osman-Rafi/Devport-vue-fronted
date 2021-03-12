@@ -92,6 +92,7 @@ import {
   BCol,
   BFormDatalist,
   BFormTextarea,
+  BButton,
 } from "bootstrap-vue";
 import CountryData from "country-region-data";
 import { notificationToast } from "@/common/components/NotificationToast";
@@ -109,6 +110,7 @@ export default {
     BCol,
     BFormDatalist,
     BFormTextarea,
+    BButton,
   },
   data() {
     return {

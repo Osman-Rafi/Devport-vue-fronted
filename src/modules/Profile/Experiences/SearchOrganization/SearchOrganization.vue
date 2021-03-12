@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div :class="selectedOrganization === null ? '' : 'd-none'">
       <b-form-group label="Search your Organization">
         <b-form-input
           id="search"
@@ -9,7 +9,11 @@
           @update="fetchOrganizationSuggestions"
         ></b-form-input>
       </b-form-group>
-      <b-card class="card-shadow overflow-auto" body-class="px-1 py-3">
+      <b-card
+        class="card-shadow overflow-auto"
+        :class="organizationSuggestions === null ? 'd-none' : ''"
+        body-class="px-1 py-3"
+      >
         <div
           v-for="suggestion in organizationSuggestions"
           :key="suggestion.id"
@@ -17,7 +21,7 @@
         >
           <organization-summary
             v-model="selectedOrganization"
-            :institution="suggestion"
+            :organization="suggestion"
             v-on="$listeners"
           />
           <hr />
@@ -27,13 +31,44 @@
         </div>
       </b-card>
     </div>
+    <template v-if="selectedOrganization">
+      <div :class="selectedOrganization === null ? 'd-none' : ''">
+        <b-list-group-item class="d-flex justify-content-between">
+          <div class="d-flex">
+            <div class="pl-2">
+              <b-avatar
+                variant="primary"
+                size="4rem"
+                :src="selectedOrganization.logo || defaultLogo"
+              ></b-avatar>
+            </div>
+            <div class="pl-3 d-flex align-items-lg-center">
+              <p class="fs-1 mb-0 font-weight-500">
+                {{ selectedOrganization.organizationName }}
+              </p>
+            </div>
+          </div>
+          <b-button variant="link" @click.prevent="clearSelectedInstitution">
+            <font-awesome-icon icon="times" class="text-black-70" />
+          </b-button>
+        </b-list-group-item>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
-import { BFormGroup, BFormInput, BCard } from "bootstrap-vue";
+import {
+  BFormGroup,
+  BFormInput,
+  BCard,
+  BListGroupItem,
+  BAvatar,
+  BButton,
+} from "bootstrap-vue";
 import OrganizationSummary from "./OrganizationSummary";
 import CreateOrganization from "../CreateOrganization";
+import API from "@/api/Api";
 export default {
   name: "SearchOrganization",
   components: {
@@ -42,17 +77,37 @@ export default {
     BFormInput,
     BFormGroup,
     BCard,
+    BListGroupItem,
+    BAvatar,
+    BButton,
+  },
+  props: {
+    organization: {
+      required: true,
+    },
   },
   data() {
     return {
       search: "",
-      selectedOrganization: {},
-      organizationSuggestions: [],
+      selectedOrganization: null,
+      organizationSuggestions: null,
     };
   },
   methods: {
-    fetchOrganizationSuggestions() {
-      console.log("suggestions");
+    async fetchOrganizationSuggestions() {
+      let count = 0;
+      let searchResults = {};
+
+      if (this.search.length > 2) {
+        const res = await API.post("search-organizations", {
+          search: this.search,
+        });
+        count = res.data.count;
+        searchResults = res.data.organizations;
+      }
+      count > 0
+        ? (this.organizationSuggestions = searchResults)
+        : (this.organizationSuggestions = {});
     },
   },
 };
