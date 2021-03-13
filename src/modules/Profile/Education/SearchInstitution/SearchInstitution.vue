@@ -7,7 +7,7 @@
           label="Search you institution"
           size="sm"
           v-model="search"
-          @update="getEducationInstitutionsSuggestions"
+          @update="fetchEducationInstitutionsSuggestions"
         ></b-form-input>
       </b-form-group>
       <b-card
@@ -103,7 +103,7 @@ export default {
     }
   },
   methods: {
-    async getEducationInstitutionsSuggestions() {
+    async fetchEducationInstitutionsSuggestions() {
       let count = 0;
       let search_results = {};
       if (this.search.length > 2) {

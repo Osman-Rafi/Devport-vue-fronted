@@ -48,7 +48,7 @@
               </p>
             </div>
           </div>
-          <b-button variant="link" @click.prevent="clearSelectedInstitution">
+          <b-button variant="link" @click.prevent="clearSelectedOrganization">
             <font-awesome-icon icon="times" class="text-black-70" />
           </b-button>
         </b-list-group-item>
@@ -108,6 +108,9 @@ export default {
       count > 0
         ? (this.organizationSuggestions = searchResults)
         : (this.organizationSuggestions = {});
+    },
+    clearSelectedOrganization() {
+      this.selectedOrganization = null;
     },
   },
 };

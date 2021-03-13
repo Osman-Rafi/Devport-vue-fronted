@@ -17,7 +17,10 @@
         ></b-form-input>
       </b-form-group>
       <b-form-group label="Employment Type">
-        <b-form-select v-model="formData.type" :options="employmentTypes">
+        <b-form-select
+          v-model="formData.employmentType"
+          :options="employmentTypes"
+        >
         </b-form-select>
       </b-form-group>
       <b-form-row>
@@ -36,7 +39,7 @@
         </b-col>
         <b-col>
           <b-form-group label="End Year (or expected)">
-            <div v-if="formData.currentlyWorking === 'true' ? '' : 'd-none'">
+            <div v-if="formData.currentlyWorking === true ? '' : 'd-none'">
               <b-form-select id="lastYear" v-model="formData.endYear">
                 <b-form-select-option value="null">Year</b-form-select-option>
                 <b-form-select-option
@@ -57,8 +60,8 @@
         <b-form-checkbox
           id="currently_working"
           v-model="formData.currentlyWorking"
-          value="true"
-          unchecked-value="false"
+          :value="true"
+          :unchecked-value="false"
           ><span class="fs--1">
             I am currently working here
           </span></b-form-checkbox
@@ -100,16 +103,20 @@ export default {
       type: Function,
       required: true,
     },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {
       formData: {
         organization: {},
         designation: "",
-        type: null,
+        employmentType: null,
         startYear: null,
         endYear: null,
-        currentlyWorking: "false",
+        currentlyWorking: false,
       },
       employmentTypes: [
         { value: null, text: "-" },
@@ -120,7 +127,6 @@ export default {
         { value: "internship", text: "Internship" },
         { value: "contract", text: "Contract" },
       ],
-      loading: false,
     };
   },
   computed: {
@@ -132,14 +138,15 @@ export default {
       );
     },
   },
-  methods: {
-    emitFormData() {
-      this.$emit("input", this.formData);
+  watch: {
+    formData: {
+      immediate: true,
+      handler: function (value) {
+        this.$emit("input", value);
+      },
+      deep: true,
     },
   },
-  watch:{
-    this.
-  }
 };
 </script>
 
