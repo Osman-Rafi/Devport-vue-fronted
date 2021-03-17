@@ -10,51 +10,55 @@
       <template v-else>
         <b-card class="d-flex card-shadow">
           <b-list-group-item
-            class="d-flex justify-content-between border-0"
+            class="d-flex justify-content-between border-0 pl-0"
             v-for="(experience, index) in userExperience"
             :key="index"
           >
-            <div class="d-flex">
-              <b-avatar
-                variant="primary"
-                size="4rem"
-                :src="experience.organization.logo"
-              ></b-avatar>
-              <div class="fs-0 ml-3">
-                <p class="font-weight-600 mb-0 fs-0">
-                  {{ experience.organization.name }}
+            <SummaryContainer
+              :logo="experience.organization.logo"
+              :title="experience.organization.name"
+              :subtitle="experience.organization.description"
+            >
+              <template v-slot:additional-info>
+                <p class="mb-0 fs--1 font-weight-600">
+                  {{ experience.designation }}
                 </p>
-                <p class="mb-2 text-black-70 fs--1">
-                  {{ experience.organization.description }}
-                </p>
-                <p class="mb-0 fs--1 font-weight-600 text-black-70">
-                  {{ experience.degree }}
-                </p>
-                <p
-                  class="text-black-50 mb-0 text-black-60 fs--1"
-                  v-if="experience.start_year"
-                >
-                  Form {{ experience.start_year }} to {{ experience.end_year }}
-                </p>
+                <div class="d-flex fs--1 text-black-60">
+                  <p class="mb-0">
+                    {{ experience.start_year }} to
+                    <template v-if="experience.currently_working">
+                      Present
+                    </template>
+                    <template v-else>
+                      {{ experience.end_year }}
+                    </template>
+                  </p>
+                  <p class="mx-2 mb-0">·</p>
+                  <p class="mb-0">
+                    {{ experience.organization.country }},
+                    {{ experience.organization.city }}
+                  </p>
+                </div>
+              </template>
+              <template v-slot:action-buttons>
                 <div class="d-flex mt-1">
                   <b-button
                     variant="link"
                     class="p-0 my-0 ml-0 no-underline fs--1 mr-3 text-blue font-weight-600"
                     v-b-modal.edit-education-modal
-                    @click="userExperience = experience"
+                    @click="userEducation = education"
                     >Edit or add details</b-button
                   >
                   <b-button
                     variant="link"
                     class="p-0 m-0 no-underline fs--1 text-blue font-weight-600"
                     v-b-modal.delete-education
-                    @click="userExperience = experience"
+                    @click="userEducation = education"
                     >Remove</b-button
                   >
                 </div>
-                <hr v-if="index !== userExperience.length - 1" />
-              </div>
-            </div>
+              </template>
+            </SummaryContainer>
           </b-list-group-item>
         </b-card>
       </template>
@@ -65,8 +69,9 @@
 <script>
 import SectionHeader from "../SectionHeader";
 import Spinner from "@/common/components/Spinner/Spinner";
+import SummaryContainer from "../SummaryContainer";
 import EmptyField from "@/common/components/Cards/EmptyField";
-import { BCard, BListGroupItem, BAvatar, BButton } from "bootstrap-vue";
+import { BCard, BListGroupItem, BButton } from "bootstrap-vue";
 import { mapState } from "vuex";
 
 import API from "@/api/Api";
@@ -80,7 +85,7 @@ export default {
     EmptyField,
     BCard,
     BListGroupItem,
-    BAvatar,
+    SummaryContainer,
     BButton,
   },
 
@@ -118,6 +123,7 @@ export default {
           "danger",
           "5000"
         );
+        this.loading = false;
       }
     },
     resetFormData() {
