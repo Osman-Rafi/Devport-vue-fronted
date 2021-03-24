@@ -44,7 +44,6 @@ export default {
 
 <style lang="scss" scoped>
 .list-row {
-  border-bottom: rgb(241, 241, 241) solid 1px;
   color: rgba(0, 0, 0, 0.86);
   float: left;
   position: relative;

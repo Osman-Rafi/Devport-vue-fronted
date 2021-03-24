@@ -15,6 +15,9 @@
             :key="index"
           >
             <summary-container
+              :class="
+                index === userExperiences.length - 1 ? '' : 'border-bottom-pro'
+              "
               :logo="userExperience.organization.logo"
               :title="userExperience.organization.name"
               :subtitle="userExperience.organization.description"
