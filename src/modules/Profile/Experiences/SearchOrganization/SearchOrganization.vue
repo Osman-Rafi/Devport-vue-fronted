@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="selectedOrganization === null ? '' : 'd-none'">
+    <template v-if="isSelectedOrganizationEmpty">
       <b-form-group label="Search your Organization">
         <b-form-input
           id="search"
@@ -9,50 +9,46 @@
           @update="fetchOrganizationSuggestions"
         ></b-form-input>
       </b-form-group>
-      <b-card
-        class="card-shadow overflow-auto"
-        :class="organizationSuggestions === null ? 'd-none' : ''"
-        body-class="px-1 py-3"
-      >
-        <div
-          v-for="suggestion in organizationSuggestions"
-          :key="suggestion.id"
-          class="mb-3"
-        >
-          <organization-summary
-            v-model="selectedOrganization"
-            :organization="suggestion"
-            v-on="$listeners"
-          />
-          <hr />
-        </div>
-        <div>
-          <create-organization />
-        </div>
-      </b-card>
-    </div>
-    <template v-if="selectedOrganization">
-      <div :class="selectedOrganization === null ? 'd-none' : ''">
-        <b-list-group-item class="d-flex justify-content-between">
-          <div class="d-flex">
-            <div class="pl-2">
-              <b-avatar
-                variant="primary"
-                size="4rem"
-                :src="selectedOrganization.logo || defaultLogo"
-              ></b-avatar>
-            </div>
-            <div class="pl-3 d-flex align-items-lg-center">
-              <p class="fs-1 mb-0 font-weight-500">
-                {{ selectedOrganization.organizationName }}
-              </p>
-            </div>
+      <template>
+        <b-card class="card-shadow overflow-auto" body-class="px-1 py-3">
+          <div
+            v-for="suggestion in organizationSuggestions"
+            :key="suggestion.id"
+            class="mb-3"
+          >
+            <organization-summary
+              v-model="selectedOrganization"
+              :organization="suggestion"
+              v-on="$listeners"
+            />
+            <hr />
           </div>
-          <b-button variant="link" @click.prevent="clearSelectedOrganization">
-            <font-awesome-icon icon="times" class="text-black-70" />
-          </b-button>
-        </b-list-group-item>
-      </div>
+          <div>
+            <create-organization />
+          </div>
+        </b-card>
+      </template>
+    </template>
+    <template v-if="!isSelectedOrganizationEmpty">
+      <b-list-group-item class="d-flex justify-content-between">
+        <div class="d-flex">
+          <div class="pl-2">
+            <b-avatar
+              variant="primary"
+              size="4rem"
+              :src="selectedOrganization.logo"
+            ></b-avatar>
+          </div>
+          <div class="pl-3 d-flex align-items-lg-center">
+            <p class="fs-1 mb-0 font-weight-500">
+              {{ selectedOrganization.name }}
+            </p>
+          </div>
+        </div>
+        <b-button variant="link" @click.prevent="clearSelectedOrganization">
+          <font-awesome-icon icon="times" class="text-black-70" />
+        </b-button>
+      </b-list-group-item>
     </template>
   </div>
 </template>
@@ -69,6 +65,7 @@ import {
 import OrganizationSummary from "./OrganizationSummary";
 import CreateOrganization from "../CreateOrganization";
 import API from "@/api/Api";
+import _isEmpty from "lodash/isEmpty";
 export default {
   name: "SearchOrganization",
   components: {
@@ -89,7 +86,7 @@ export default {
   data() {
     return {
       search: "",
-      selectedOrganization: null,
+      selectedOrganization: this.organization,
       organizationSuggestions: null,
     };
   },
@@ -111,6 +108,14 @@ export default {
     },
     clearSelectedOrganization() {
       this.selectedOrganization = null;
+    },
+  },
+  computed: {
+    isOrganizationSuggestionsEmpty() {
+      return _isEmpty(this.organizationSuggestions);
+    },
+    isSelectedOrganizationEmpty() {
+      return _isEmpty(this.selectedOrganization);
     },
   },
 };

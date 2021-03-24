@@ -1,42 +1,68 @@
 <template>
   <div>
-    <SectionHeader section-title="Organizations" add-more-route="#">
-      <create-user-experience />
-    </SectionHeader>
+    <section-header section-title="Organizations" add-more-route="#">
+      <create-user-experience @onCreateExperience="onCreateExperience" />
+    </section-header>
     <spinner :loading="loading">
-      <template v-if="userExperience.length === 0">
-        <EmptyField title="Add your Experiences here with proper details" />
+      <template v-if="userExperiences.length === 0">
+        <empty-field title="Add your Experiences here with proper details" />
       </template>
       <template v-else>
         <b-card class="d-flex card-shadow">
           <b-list-group-item
             class="d-flex justify-content-between border-0 pl-0"
-            v-for="(experience, index) in userExperience"
+            v-for="(userExperience, index) in userExperiences"
             :key="index"
           >
-            <SummaryContainer
-              :logo="experience.organization.logo"
-              :title="experience.organization.name"
-              :subtitle="experience.organization.description"
+            <summary-container
+              :logo="userExperience.organization.logo"
+              :title="userExperience.organization.name"
+              :subtitle="userExperience.organization.description"
             >
               <template v-slot:additional-info>
-                <p class="mb-0 fs--1 font-weight-600">
-                  {{ experience.designation }}
-                </p>
-                <div class="d-flex fs--1 text-black-60">
-                  <p class="mb-0">
-                    {{ experience.start_year }} to
-                    <template v-if="experience.currently_working">
-                      Present
-                    </template>
-                    <template v-else>
-                      {{ experience.end_year }}
-                    </template>
+                <div class="d-flex">
+                  <p
+                    v-if="userExperience.designation"
+                    class="mb-0 fs--1 font-weight-600"
+                  >
+                    {{ userExperience.designation }}
                   </p>
-                  <p class="mx-2 mb-0">·</p>
+                  <p
+                    v-if="
+                      userExperience.designation &&
+                      userExperience.employmentType
+                    "
+                    class="mx-1 mb-0"
+                  >
+                    ·
+                  </p>
+                  <p
+                    v-if="userExperience.employmentType"
+                    class="ml-1 mb-0 fs--1 font-weight-600"
+                  >
+                    {{ userExperience.employmentType }}
+                  </p>
+                </div>
+                <div class="d-flex fs--1 text-black-60">
+                  <template v-if="userExperience.startYear">
+                    <p class="mb-0">
+                      {{ userExperience.startYear }} to
+                      <template v-if="userExperience.currentlyWorking">
+                        Present
+                      </template>
+                      <template v-else>
+                        {{ userExperience.endYear }}
+                      </template>
+                    </p>
+                  </template>
+                  <p v-if="userExperience.endYear" class="mx-2 mb-0">·</p>
                   <p class="mb-0">
-                    {{ experience.organization.country }},
-                    {{ experience.organization.city }}
+                    <template v-if="userExperience.organization.country">
+                      {{ userExperience.organization.country }} </template
+                    >,
+                    <template v-if="userExperience.organization.city">{{
+                      userExperience.organization.city
+                    }}</template>
                   </p>
                 </div>
               </template>
@@ -45,22 +71,29 @@
                   <b-button
                     variant="link"
                     class="p-0 my-0 ml-0 no-underline fs--1 mr-3 text-blue font-weight-600"
-                    v-b-modal.edit-education-modal
-                    @click="userEducation = education"
+                    @click="triggerEdit(userExperience)"
                     >Edit or add details</b-button
                   >
                   <b-button
                     variant="link"
                     class="p-0 m-0 no-underline fs--1 text-blue font-weight-600"
-                    v-b-modal.delete-education
-                    @click="userEducation = education"
+                    @click="triggerDelete(userExperience)"
                     >Remove</b-button
                   >
                 </div>
               </template>
-            </SummaryContainer>
+            </summary-container>
           </b-list-group-item>
         </b-card>
+      </template>
+      <template v-if="enableEdit">
+        <edit-user-experience :experience="selectedExperience" />
+      </template>
+      <template v-if="enableDelete">
+        <delete-user-experience
+          :experience="selectedExperience"
+          @onDeleteExperience="onDeleteExperience"
+        />
       </template>
     </spinner>
   </div>
@@ -73,14 +106,16 @@ import SummaryContainer from "../SummaryContainer";
 import EmptyField from "@/common/components/Cards/EmptyField";
 import { BCard, BListGroupItem, BButton } from "bootstrap-vue";
 import { mapState } from "vuex";
-
 import API from "@/api/Api";
 import { notificationToast } from "@/common/components/NotificationToast";
+
 export default {
   name: "UserExperiences",
   components: {
     SectionHeader,
     CreateUserExperience: () => import("./CreateUserExperience"),
+    EditUserExperience: () => import("./EditUserExperience"),
+    DeleteUserExperience: () => import("./DeleteUserExperience"),
     Spinner,
     EmptyField,
     BCard,
@@ -91,9 +126,12 @@ export default {
 
   data() {
     return {
-      experiences: [],
-      userExperience: {},
+      userExperiences: [],
+      selectedExperience: {},
       loading: false,
+      editExperience: "",
+      enableEdit: false,
+      enableDelete: false,
     };
   },
   computed: {
@@ -111,8 +149,7 @@ export default {
         const res = await API.get(
           `experience/user-experiences/user/${this.user.id}`
         );
-        console.log(res);
-        this.userExperience = res.data.userExperiences;
+        this.userExperiences = res.data.userExperiences;
         this.loading = false;
       } catch (error) {
         notificationToast(
@@ -126,8 +163,38 @@ export default {
         this.loading = false;
       }
     },
+
     resetFormData() {
-      this.userExperience = {};
+      this.selectedExperience = {};
+    },
+
+    updateExperience(event) {
+      console.log(event);
+    },
+
+    onCreateExperience(experience) {
+      this.userExperiences.unshift(experience);
+    },
+
+    triggerEdit(userExperience) {
+      this.enableEdit = true;
+      this.selectedExperience = userExperience;
+      setTimeout(() => this.$bvModal.show("edit-experience-modal"), 50);
+    },
+
+    triggerDelete(experience) {
+      this.enableDelete = true;
+      this.selectedExperience = experience;
+      setTimeout(() => this.$bvModal.show("delete-experience-modal"), 50);
+    },
+
+    onDeleteExperience() {
+      this.userExperiences.splice(
+        this.userExperiences.findIndex(
+          (i) => i.id === this.selectedExperience.id
+        ),
+        1
+      );
     },
   },
 };

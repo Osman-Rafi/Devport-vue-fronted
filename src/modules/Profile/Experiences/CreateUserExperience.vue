@@ -20,8 +20,8 @@
       @hide="resetFormData"
       :ok-disabled="isUserExperienceEmpty"
     >
-      <create-or-edit-experience
-        v-model="userExperience"
+      <user-experience-fields
+        :user-experience="userExperience"
         :handle-submit="handleAddNewExperience"
         :loading="loading"
       />
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import CreateOrEditExperience from "./CreateOrEditExperience";
+import UserExperienceFields from "./UserExperienceFields";
 import { BButton, VBModal, BModal } from "bootstrap-vue";
 import { mapState } from "vuex";
 import API from "@/api/Api";
@@ -39,7 +39,7 @@ import _isEmpty from "lodash/isEmpty";
 export default {
   name: "CreateUserExperience",
   components: {
-    CreateOrEditExperience,
+    UserExperienceFields,
     BButton,
     BModal,
   },
@@ -48,7 +48,14 @@ export default {
   },
   data() {
     return {
-      userExperience: {},
+      userExperience: {
+        organization: {},
+        designation: "",
+        employmentType: null,
+        startYear: null,
+        endYear: null,
+        currentlyWorking: false,
+      },
       loading: false,
     };
   },
@@ -65,21 +72,21 @@ export default {
           `experience/create-user-experience/user/${this.user.id}`,
           userExperience
         );
-        if (res.data.status === 201) {
-          //emit data
+        if (res.status === 201) {
+          this.$nextTick(() => {
+            this.$bvModal.hide("add-experience-modal");
+          });
+          notificationToast(
+            this,
+            true,
+            "Success !!",
+            "Experience Added",
+            "success"
+          );
+          this.$emit("onCreateExperience", userExperience);
         }
         this.loading = false;
         // hide modal
-        this.$nextTick(() => {
-          this.$bvModal.hide("add-experience-modal");
-        });
-        notificationToast(
-          this,
-          true,
-          "Success !!",
-          "Experience Added",
-          "success"
-        );
         this.resetFormData();
       } catch (error) {
         notificationToast(

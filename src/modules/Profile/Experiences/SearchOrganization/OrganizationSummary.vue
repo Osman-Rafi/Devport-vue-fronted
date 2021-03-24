@@ -2,7 +2,12 @@
   <b-list-group
     flush
     @click="
-      selectOrganization(organization.id, organization.name, organization.logo)
+      selectOrganization(
+        organization.id,
+        organization.name,
+        organization.logo,
+        organization.description
+      )
     "
   >
     <b-list-group-item
@@ -55,11 +60,12 @@ export default {
     };
   },
   methods: {
-    selectOrganization(id, organizationName, logo) {
+    selectOrganization(id, organizationName, logo, description) {
       this.selectedOrganization = {
         id: id,
-        organizationName: organizationName,
+        name: organizationName,
         logo: logo,
+        description: description,
       };
       this.$emit("input", this.selectedOrganization);
     },

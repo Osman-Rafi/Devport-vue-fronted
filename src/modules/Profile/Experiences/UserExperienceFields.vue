@@ -6,7 +6,7 @@
         :organization="formData.organization"
       />
     </b-form-group>
-    <b-form @submit.stop.prevent="handleSubmit">
+    <b-form>
       <b-form-group label="Designation" label-for="designation">
         <b-form-input
           id="designation"
@@ -39,7 +39,10 @@
         </b-col>
         <b-col>
           <b-form-group label="End Year (or expected)">
-            <div v-if="formData.currentlyWorking === true ? '' : 'd-none'">
+            <template v-if="formData.currentlyWorking">
+              <p class="fs--1 ml-1 font-weight-500">Currently working</p>
+            </template>
+            <template v-else>
               <b-form-select id="lastYear" v-model="formData.endYear">
                 <b-form-select-option value="null">Year</b-form-select-option>
                 <b-form-select-option
@@ -49,10 +52,7 @@
                   >{{ year }}</b-form-select-option
                 >
               </b-form-select>
-            </div>
-            <div v-else>
-              <p class="fs--1 ml-1 font-weight-500">Currently working</p>
-            </div>
+            </template>
           </b-form-group>
         </b-col>
       </b-form-row>
@@ -60,8 +60,8 @@
         <b-form-checkbox
           id="currently_working"
           v-model="formData.currentlyWorking"
-          :value="true"
-          :unchecked-value="false"
+          :value="1"
+          :unchecked-value="0"
           ><span class="fs--1">
             I am currently working here
           </span></b-form-checkbox
@@ -85,7 +85,7 @@ import {
 import Spinner from "@/common/components/Spinner/Spinner";
 import SearchOrganization from "./SearchOrganization/SearchOrganization";
 export default {
-  name: "CreateOrEditExperience",
+  name: "UserExperienceFields",
   components: {
     SearchOrganization,
     BForm,
@@ -99,33 +99,37 @@ export default {
     Spinner,
   },
   props: {
-    handleSubmit: {
-      type: Function,
-      required: true,
-    },
     loading: {
       type: Boolean,
       required: true,
     },
+    userExperience: {
+      type: Object,
+      default: function () {
+        return {
+          organization: {},
+          designation: "",
+          employmentType: null,
+          startYear: null,
+          endYear: null,
+          currentlyWorking: false,
+        };
+      },
+      required: false,
+    },
+    userData: Object,
   },
   data() {
     return {
-      formData: {
-        organization: {},
-        designation: "",
-        employmentType: null,
-        startYear: null,
-        endYear: null,
-        currentlyWorking: false,
-      },
+      formData: this.userExperience,
       employmentTypes: [
         { value: null, text: "-" },
-        { value: "full-time", text: "Full Time" },
-        { value: "part-time", text: "Part Time" },
-        { value: "self-employed", text: "Self Employed" },
-        { value: "freelance", text: "Freelance" },
-        { value: "internship", text: "Internship" },
-        { value: "contract", text: "Contract" },
+        { value: "Full time", text: "Full Time" },
+        { value: "Part time", text: "Part Time" },
+        { value: "Self employed", text: "Self Employed" },
+        { value: "Freelance", text: "Freelance" },
+        { value: "Internship", text: "Internship" },
+        { value: "Contract", text: "Contract" },
       ],
     };
   },
@@ -142,7 +146,7 @@ export default {
     formData: {
       immediate: true,
       handler: function (value) {
-        this.$emit("input", value);
+        this.$emit("userExperience", value);
       },
       deep: true,
     },
