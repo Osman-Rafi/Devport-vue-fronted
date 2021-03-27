@@ -11,7 +11,7 @@
 <script>
 import { mapState } from "vuex";
 import { BRow, BCol } from "bootstrap-vue";
-import UserSummary from "./UserSummary";
+import UserSummary from "./UserInformation/UserSummary";
 import UserEducation from "./Education/UserEducation";
 import UserOrganizations from "./Experiences/UserExperiences";
 export default {
@@ -28,8 +28,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userFirstName: (state) => state.auth.user.first_name,
-      userSureName: (state) => state.auth.user.sure_name,
+      userFirstName: (state) => state.auth.user.firstName,
+      userSureName: (state) => state.auth.user.sureName,
     }),
   },
 };

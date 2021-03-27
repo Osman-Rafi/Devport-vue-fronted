@@ -38,7 +38,6 @@ export default {
       type: Object,
       required: true,
     },
-    updateExperience: Object,
   },
   directives: {
     "b-modal": VBModal,

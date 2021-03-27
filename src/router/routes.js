@@ -33,6 +33,11 @@ const routes = [
         component: () =>
           import(/*webpackChunkName: "blog"*/ "../modules/Blog/RecentBlogPost"),
       },
+      {
+        path: "edit-profile",
+        component: () =>
+          import("../modules/Profile/UserInformation/EditUserInformation"),
+      },
     ],
   },
 ];

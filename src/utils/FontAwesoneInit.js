@@ -13,6 +13,7 @@ import {
   faUniversity,
   faChevronRight,
   faTimes,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faUsps } from "@fortawesome/free-brands-svg-icons";
@@ -46,5 +47,6 @@ library.add(
   faUniversity,
   faChevronRight,
   faTimes,
-  faBuilding
+  faBuilding,
+  faArrowLeft
 );
