@@ -16,9 +16,9 @@
           <b-row class="d-flex justify-content-center">
             <b-col sm="6">
               <FileUploader
-                v-model="formData.profilePicture"
+                v-model="profilePicture"
                 label="Drop profile picture here..."
-                file-name="logo"
+                file-name="profilePicture"
               />
             </b-col>
           </b-row>
@@ -208,6 +208,7 @@ export default {
         bloodGroup: "",
         gender: "",
       },
+      profilePicture: null,
       loading: false,
     };
   },
@@ -230,14 +231,16 @@ export default {
         );
       }
     },
+
     async handleUploadProfilePicture() {
       try {
         const res = await API.post(
-          `update-profile-picture`,
-          this.formData.profilePicture
+          `update-profile-picture/user/${this.user.id}`,
+          this.profilePicture
         );
         return res.data.path;
       } catch (error) {
+        console.log(error);
         notificationToast(
           this,
           true,
@@ -247,17 +250,16 @@ export default {
         );
       }
     },
-    handleEditUserData() {
+    async handleEditUserData() {
+      this.loading = true;
       try {
-        this.loading = true;
-        const profilePicturePath = this.handleUploadProfilePicture();
-        this.formData.profilePicture = profilePicturePath;
-        API.put(`update-user-info/user/${this.user.id}`, this.formData)
-          .then((res) => res.data.message)
-          .then((res) => {
-            notificationToast(this, true, "success", res, "success", "5000");
-          });
-        this.loading = false;
+        this.formData.profilePicture = await this.handleUploadProfilePicture();
+        const res = await API.put(
+          `update-user-info/user/${this.user.id}`,
+          this.formData
+        );
+        const message = await res.data.message;
+        notificationToast(this, true, "success", message, "success", "5000");
       } catch (error) {
         notificationToast(
           this,
@@ -267,8 +269,8 @@ export default {
           "danger",
           "5000"
         );
-        this.loading = false;
       }
+      this.loading = false;
     },
   },
   computed: {
