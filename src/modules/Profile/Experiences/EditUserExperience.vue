@@ -8,14 +8,11 @@
       button-size="sm"
       hide-header-close
       return-focus="false"
-      @ok="handleEditExperience"
-      @hide="resetFormData"
+      @ok="updateFormData"
     >
-      <user-experience-fields
-        :user-experience="userExperience"
-        :handle-submit="handleEditExperience"
-        :loading="loading"
-      />
+      <spinner :loading="loading">
+        <user-experience-fields :user-experience="userExperience" />
+      </spinner>
     </b-modal>
   </div>
 </template>
@@ -23,13 +20,12 @@
 <script>
 import { VBModal, BModal } from "bootstrap-vue";
 import UserExperienceFields from "@/modules/Profile/Experiences/UserExperienceFields";
-import { mapState } from "vuex";
-import { notificationToast } from "@/common/components/NotificationToast";
-import API from "@/api/Api";
+import Spinner from "@/common/components/Spinner/Spinner";
 
 export default {
   name: "EditUserExperience",
   components: {
+    Spinner,
     UserExperienceFields,
     BModal,
   },
@@ -38,70 +34,23 @@ export default {
       type: Object,
       required: true,
     },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
   },
   directives: {
     "b-modal": VBModal,
   },
-  data() {
-    return {
-      loading: false,
-      userExperience: this.experience,
-      updatedUserExperience: {},
-    };
+  computed: {
+    userExperience() {
+      return { ...this.experience };
+    },
   },
   methods: {
-    async handleEditExperience(bvModalEvt) {
-      try {
-        bvModalEvt.preventDefault();
-        this.loading = true;
-        const userExperience = {
-          ...this.userExperience,
-          organizationId: this.userExperience.organization.id,
-        };
-        const res = await API.put(
-          `experience/update-user-experience/user/${this.user.id}/experience/${userExperience.id}`,
-          userExperience
-        );
-        this.loading = false;
-        if (res.status === 201) {
-          // this.$emit("updateExperience", userExperience);
-          // @updateExperience=updateExperience
-          notificationToast(
-            this,
-            true,
-            "Success !!",
-            "Experience Added",
-            "success"
-          );
-        }
-
-        // hide modal
-        this.$nextTick(() => {
-          this.$bvModal.hide("edit-experience-modal");
-        });
-
-        this.resetFormData();
-      } catch (error) {
-        notificationToast(
-          this,
-          true,
-          "Oppss !!",
-          "something went wrong",
-          "danger"
-        );
-      }
+    updateFormData() {
+      this.$emit("updateExperience", this.userExperience);
     },
-    resetFormData() {
-      this.userExperience = {};
-    },
-  },
-  computed: {
-    ...mapState({
-      user: (state) => state.auth.user,
-    }),
-  },
-  created() {
-    console.log("initiated");
   },
 };
 </script>

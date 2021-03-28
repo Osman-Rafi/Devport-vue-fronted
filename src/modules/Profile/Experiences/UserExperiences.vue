@@ -61,8 +61,8 @@
                   <p v-if="userExperience.endYear" class="mx-2 mb-0">·</p>
                   <p class="mb-0">
                     <template v-if="userExperience.organization.country">
-                      {{ userExperience.organization.country }} </template
-                    >,
+                      {{ userExperience.organization.country }},
+                    </template>
                     <template v-if="userExperience.organization.city">{{
                       userExperience.organization.city
                     }}</template>
@@ -74,13 +74,13 @@
                   <b-button
                     variant="link"
                     class="p-0 my-0 ml-0 no-underline fs--1 mr-3 text-blue font-weight-600"
-                    @click="triggerEdit(userExperience)"
+                    @click="triggerEdit(index)"
                     >Edit or add details</b-button
                   >
                   <b-button
                     variant="link"
                     class="p-0 m-0 no-underline fs--1 text-blue font-weight-600"
-                    @click="triggerDelete(userExperience)"
+                    @click="triggerDelete(index)"
                     >Remove</b-button
                   >
                 </div>
@@ -89,12 +89,16 @@
           </b-list-group-item>
         </b-card>
       </template>
-      <template v-if="enableEdit">
-        <edit-user-experience :experience="selectedExperience" />
-      </template>
+
+      <edit-user-experience
+        :experience="editExperience"
+        :loading="loading"
+        @updateExperience="handleEditExperience"
+      />
+
       <template v-if="enableDelete">
         <delete-user-experience
-          :experience="selectedExperience"
+          :experience="deleteExperience"
           @onDeleteExperience="onDeleteExperience"
         />
       </template>
@@ -130,11 +134,12 @@ export default {
   data() {
     return {
       userExperiences: [],
-      selectedExperience: {},
+      editExperience: {},
+      deleteExperience: {},
       loading: false,
-      editExperience: "",
       enableEdit: false,
       enableDelete: false,
+      index: 0,
     };
   },
   computed: {
@@ -171,30 +176,54 @@ export default {
       this.selectedExperience = {};
     },
 
-    updateExperience(event) {
-      console.log(event);
-    },
-
     onCreateExperience(experience) {
       this.userExperiences.unshift(experience);
     },
 
-    triggerEdit(userExperience) {
+    triggerEdit(index) {
       this.enableEdit = true;
-      this.selectedExperience = userExperience;
-      setTimeout(() => this.$bvModal.show("edit-experience-modal"), 50);
+      this.editExperience = this.userExperiences[index];
+      this.$bvModal.show("edit-experience-modal");
     },
 
-    triggerDelete(experience) {
+    handleEditExperience(experience) {
+      this.loading = true;
+      try {
+        const userExperience = {
+          ...experience,
+          organizationId: experience.organization.id,
+        };
+        API.put(
+          `experience/update-user-experience/user/${this.user.id}/experience/${experience.id}`,
+          userExperience
+        )
+          .then((res) => res.data.message)
+          .then((res) =>
+            notificationToast(this, true, "Success !!", res, "success")
+          )
+          .then(() => this.userExperiences.splice(this.index, 1, experience));
+      } catch (error) {
+        notificationToast(
+          this,
+          true,
+          "Oppss !!",
+          "Something went wrong to upload logo",
+          "danger"
+        );
+      }
+      this.loading = false;
+    },
+
+    triggerDelete(index) {
       this.enableDelete = true;
-      this.selectedExperience = experience;
+      this.deleteExperience = this.userExperiences[index];
       setTimeout(() => this.$bvModal.show("delete-experience-modal"), 50);
     },
 
     onDeleteExperience() {
       this.userExperiences.splice(
         this.userExperiences.findIndex(
-          (i) => i.id === this.selectedExperience.id
+          (i) => i.id === this.deleteExperience.id
         ),
         1
       );

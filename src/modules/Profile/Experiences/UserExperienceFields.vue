@@ -1,5 +1,5 @@
 <template>
-  <spinner :loading="loading">
+  <div>
     <b-form-group>
       <search-organization
         v-model="formData.organization"
@@ -68,7 +68,7 @@
         >
       </b-form-group>
     </b-form>
-  </spinner>
+  </div>
 </template>
 
 <script>
@@ -82,7 +82,6 @@ import {
   BCol,
   BFormCheckbox,
 } from "bootstrap-vue";
-import Spinner from "@/common/components/Spinner/Spinner";
 import SearchOrganization from "./SearchOrganization/SearchOrganization";
 export default {
   name: "UserExperienceFields",
@@ -96,13 +95,8 @@ export default {
     BFormRow,
     BCol,
     BFormCheckbox,
-    Spinner,
   },
   props: {
-    loading: {
-      type: Boolean,
-      required: true,
-    },
     userExperience: {
       type: Object,
       default: function () {
@@ -121,7 +115,6 @@ export default {
   },
   data() {
     return {
-      formData: this.userExperience,
       employmentTypes: [
         { value: null, text: "-" },
         { value: "Full time", text: "Full Time" },
@@ -134,6 +127,9 @@ export default {
     };
   },
   computed: {
+    formData() {
+      return this.userExperience;
+    },
     years() {
       const year = new Date().getFullYear();
       return Array.from(
@@ -142,7 +138,7 @@ export default {
       );
     },
   },
-  watch: {
+  /*watch: {
     formData: {
       immediate: true,
       handler: function (value) {
@@ -150,7 +146,7 @@ export default {
       },
       deep: true,
     },
-  },
+  },*/
 };
 </script>
 

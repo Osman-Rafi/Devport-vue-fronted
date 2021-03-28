@@ -11,10 +11,14 @@
     </a>
     <div class="list-content">
       <div class="list-title">{{ title }}</div>
-      <div v-if="subtitle" class="fs--1 text-black-60">
+      <div
+        v-if="subtitle"
+        :class="subtitle ? 'mb-3' : ''"
+        class="fs--1 text-black-60"
+      >
         {{ subtitle.substring(0, 180) + "..." }}
       </div>
-      <div class="mt-3">
+      <div>
         <slot name="additional-info"></slot>
       </div>
       <div>
