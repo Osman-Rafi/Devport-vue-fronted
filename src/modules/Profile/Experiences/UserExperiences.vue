@@ -58,7 +58,14 @@
                       </template>
                     </p>
                   </template>
-                  <p v-if="userExperience.endYear" class="mx-2 mb-0">·</p>
+                  <p
+                    v-if="
+                      userExperience.endYear || userExperience.currentlyWorking
+                    "
+                    class="mx-2 mb-0"
+                  >
+                    ·
+                  </p>
                   <p class="mb-0">
                     <template v-if="userExperience.organization.country">
                       {{ userExperience.organization.country }},

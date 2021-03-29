@@ -13,7 +13,9 @@
           </b-col>
           <b-col>
             <transition name="fade" mode="out-in">
-              <router-view></router-view>
+              <keep-alive>
+                <router-view></router-view>
+              </keep-alive>
             </transition>
           </b-col>
         </b-row>
