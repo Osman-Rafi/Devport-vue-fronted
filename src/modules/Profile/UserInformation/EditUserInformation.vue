@@ -70,7 +70,6 @@
               </b-form-group>
             </b-col>
           </b-form-row>
-
           <b-form-group label="Current Address">
             <b-form-input
               id="current-address"
@@ -79,7 +78,7 @@
             ></b-form-input>
           </b-form-group>
           <b-form-group label="Bio">
-            <b-form-textarea></b-form-textarea>
+            <b-form-textarea v-model="formData.bio"></b-form-textarea>
           </b-form-group>
           <section-header section-title="Links & Profiles" />
           <b-form-row>
@@ -215,6 +214,7 @@ export default {
   methods: {
     async fetchUserData() {
       this.loading = true;
+
       try {
         const res = await API.get(`get-user-info/user/${this.user.id}`);
         this.formData = res.data[0].user;
@@ -253,7 +253,9 @@ export default {
     async handleEditUserData() {
       this.loading = true;
       try {
-        this.formData.profilePicture = await this.handleUploadProfilePicture();
+        if (this.profilePicture) {
+          this.formData.profilePicture = await this.handleUploadProfilePicture();
+        }
         const res = await API.put(
           `update-user-info/user/${this.user.id}`,
           this.formData

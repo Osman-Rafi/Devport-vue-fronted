@@ -11,7 +11,7 @@
       </b-col>
       <b-col>
         <h2 class="font-weight-700 fs-3">{{ userSummary.fullName }}</h2>
-        <p class="fs-0 text-black-50">
+        <p class="fs-0 text-black-70 text-justify">
           {{ userSummary.bio }}
         </p>
         <p class="font-weight-500 fs-0">
