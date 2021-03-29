@@ -6,6 +6,7 @@
           id="search"
           size="sm"
           v-model="search"
+          placeholder="Google, Facebook, Github..."
           @update="fetchOrganizationSuggestions"
         ></b-form-input>
       </b-form-group>

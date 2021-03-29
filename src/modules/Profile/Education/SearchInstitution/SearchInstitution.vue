@@ -7,6 +7,7 @@
           label="Search you institution"
           size="sm"
           v-model="search"
+          placeholder="Ex: University of British Colombia"
           @update="fetchEducationInstitutionsSuggestions"
         ></b-form-input>
       </b-form-group>
