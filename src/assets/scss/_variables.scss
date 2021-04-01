@@ -1,0 +1,37 @@
+// Typography
+//
+// Font, line-height, and color for body text, headings, and more.
+// TODO : replace the function to _functions.scss
+@function power($base,$exponents) {
+  $raised: 1;
+  @for $i from 1 through $exponents {
+    $raised: $raised * $base
+  }
+  @return $raised;
+}
+$type-scale: 1.2;
+$font-size-base: 0.9375rem !default;
+$font-sizes:()!default;
+$font-sizes: (
+        '-2':1/power($type-scale,2)*$font-size-base,
+        '-1':1/$type-scale*$font-size-base,
+        0:$font-size-base,
+        1:power($type-scale,1) * $font-size-base,
+        2:power($type-scale,2) * $font-size-base,
+        3:power($type-scale,3) * $font-size-base,
+        4:power($type-scale,4) * $font-size-base,
+        5:power($type-scale,5) * $font-size-base,
+        6:power($type-scale,6) * $font-size-base,
+);
+
+$font-weight-normal: 400 !default;
+$font-weight-semi-bold: 600 !default;
+
+
+// Dashboard
+$dashboard-frame-width: 1160px;
+$dashboard-sidebar-width: 230px;
+$dashboard-content-padding: 2.85rem;
+$dashboard-sidebar-color: rgb(2, 3, 4);
+$dashboard-sidebar-item-boarder-color: transparent !default;
+;

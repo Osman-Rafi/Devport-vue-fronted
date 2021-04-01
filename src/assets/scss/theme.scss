@@ -1,6 +1,10 @@
-//Bootstrap Styles
-@import "~bootstrap/dist/css/bootstrap.css";
-@import "~bootstrap-vue/dist/bootstrap-vue.css";
+@import "~bootstrap/scss/functions";
+@import "functions";
+@import "variables";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-vue/src/index.scss";
+
 //Theme Styles
 @import "utilities/text";
 @import "utilities/border";
