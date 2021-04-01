@@ -1,0 +1,32 @@
+@import "../../../../../assets/scss/app";
+
+.sidebarLink {
+  width: 100%;
+  overflow-x: hidden;
+  font-size: 13px;
+  line-height: 16px;
+  padding-left: 15px;
+
+  a {
+    color: #000;
+    opacity: 0.9;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semi-bold;
+    line-height: 40px;
+
+    .icon {
+      position: relative;
+      color: rgb(0, 0, 0);
+      display: block;
+      float: left;
+      margin-right: 14px;
+    }
+    &:hover {
+      background-color: rgba(0, 0, 100, .05);
+      border-radius: 25px;
+    }
+  }
+
+}
