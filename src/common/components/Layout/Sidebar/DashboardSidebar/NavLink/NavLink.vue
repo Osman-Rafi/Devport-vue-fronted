@@ -1,6 +1,6 @@
 <template>
   <li :class="{ sidebarLink: true, className }">
-    <router-link :to="link" class="sidebar-link">
+    <router-link :to="link" class="sidebar-link" tag="div">
       <span class="icon">
         <font-awesome-icon
           v-if="icon.prefix"

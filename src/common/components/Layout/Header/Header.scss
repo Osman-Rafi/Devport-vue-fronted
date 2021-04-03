@@ -1,0 +1,19 @@
+@import "../../../../assets/scss/app";
+
+.app-header {
+  z-index: 100;
+  padding: 0 1.85rem 0;
+
+  @include media-breakpoint-down(md) {
+    padding: 0 10px;
+  }
+}
+
+.navbar-nav-mobile {
+  flex-direction: row;
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+  }
+}

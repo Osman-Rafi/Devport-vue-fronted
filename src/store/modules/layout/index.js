@@ -14,4 +14,10 @@ export default {
       }
     },
   },
+
+  actions: {
+    switchSidebar({ commit }, value) {
+      commit("switchSidebar", value);
+    },
+  },
 };

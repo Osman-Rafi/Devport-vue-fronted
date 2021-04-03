@@ -14,17 +14,19 @@ import {
   faChevronRight,
   faTimes,
   faArrowLeft,
+  faBars,
+  faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faUsps } from "@fortawesome/free-brands-svg-icons";
 import {} from "@fortawesome/fontawesome-svg-core";
 import {
-  faCompass,
   faUserCircle,
   faBell,
   faEnvelope,
   faTrashAlt,
   faBuilding,
+  faCompass,
 } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
@@ -35,7 +37,6 @@ library.add(
   faComment,
   faMapMarkerAlt,
   faEllipsisV,
-  faCompass,
   faUserCircle,
   faBell,
   faEnvelope,
@@ -48,5 +49,8 @@ library.add(
   faChevronRight,
   faTimes,
   faBuilding,
-  faArrowLeft
+  faArrowLeft,
+  faBars,
+  faPowerOff,
+  faCompass
 );

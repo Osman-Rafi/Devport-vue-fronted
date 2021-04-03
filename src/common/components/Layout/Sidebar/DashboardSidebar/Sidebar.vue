@@ -1,8 +1,13 @@
 <template>
-  <b-collapse class="sidebar-collapse" id="sidebar-collapse" :visible="true">
+  <b-collapse
+    class="sidebar-collapse"
+    id="sidebar-collapse"
+    :visible="sidebarOpened"
+  >
     <nav :class="{ sidebar: true }">
       <ul class="nav">
         <nav-link
+          tag="div"
           v-for="(item, index) in sidebarItems"
           :key="index"
           :header="item.label"
@@ -17,6 +22,7 @@
 <script>
 import { BCollapse } from "bootstrap-vue";
 import NavLink from "./NavLink/NavLink";
+import { mapState } from "vuex";
 export default {
   name: "Sidebar.vue",
   components: {
@@ -68,6 +74,12 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState("layout", {
+      sidebarOpened: (state) => !state.sidebarClose,
+    }),
+  },
+  methods: {},
 };
 </script>
 

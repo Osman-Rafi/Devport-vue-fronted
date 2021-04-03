@@ -1,37 +1,31 @@
 @import "../../../../assets/scss/app";
 
+.base{
+  width: 100%;
+  height: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+}
 .root {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-
-  & .frame-outer {
-    width: 100%;
-    max-width: $dashboard-frame-width;
-    margin: 0 auto;
-    height: 100%;
-    float: left;
-    position: relative;
-  }
-
-  & .frame-inner {
-    max-width: none;
-    height: 100%;
-    width: 100%;
-    display: inline-block;
+  height: 100%;
+  @include media-breakpoint-up('md') {
+    margin-left: $dashboard-sidebar-width;
   }
 }
 
 .content {
   position: relative;
-  float: left;
-  left: 241px;
-  padding-top: 10px;
-  //padding: $dashboard-content-padding $dashboard-content-padding ($dashboard-content-padding + 1rem);
+  flex-grow: 1;
+  //padding: $dashboard-content-padding $dashboard-content-padding ($dashboard-content-padding + 1rem); // 1 rem for footer height
 
-  & .content-inner-box {
-    float: left;
-    position: relative;
-    margin-left: 8%;
+  @media (max-width: breakpoint-max(sm)) {
+    padding: 20px 15px 40px;
+  }
+  
+  @media (min-width: breakpoint-min(sm)) {
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto !important;
   }
 }

@@ -1,63 +1,28 @@
 <template>
-  <b-navbar toggleable="lg">
-    <b-navbar-brand href="#">Devport Logo</b-navbar-brand>
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-    <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item>
-          <font-awesome-icon
-            :icon="['far', 'compass']"
-            class="mr-1"
-            size="lg"
-          />
-        </b-nav-item>
-      </b-navbar-nav>
-      <b-nav-item-dropdown
-        size="lg"
-        variant="link"
-        toggle-class="text-decoration-none"
-        no-caret
-        right
-      >
-        <template #button-content>
-          <b-avatar variant="dark" text="O"></b-avatar>
-        </template>
-        <b-dropdown-item>Your public profile</b-dropdown-item>
-        <b-dropdown-item>Settings</b-dropdown-item>
-        <b-dropdown-item>
-          <a href="" @click.prevent="logout" class="text-decoration-none"
-            >Logout</a
-          >
-        </b-dropdown-item>
-      </b-nav-item-dropdown>
-    </b-collapse>
+  <b-navbar toggleable="md" class="app-header">
+    <b-navbar-nav class="ml-auto navbar-nav-mobile">
+      <b-nav-item>
+        <font-awesome-icon :icon="['far', 'compass']" class="mr-3" size="lg" />
+      </b-nav-item>
+      <b-nav-item @click="logout">
+        <font-awesome-icon icon="power-off" size="lg" class="mx-2" />
+      </b-nav-item>
+      <b-nav-item class="d-md-none" @click="switchSidebarMethod">
+        <font-awesome-icon icon="bars" size="lg" class="mx-2" />
+      </b-nav-item>
+    </b-navbar-nav>
   </b-navbar>
 </template>
 
 <script>
-import {
-  BNavbar,
-  BNavbarBrand,
-  BNavbarToggle,
-  BCollapse,
-  BNavbarNav,
-  BNavItem,
-  BNavItemDropdown,
-  BDropdownItem,
-  BAvatar,
-} from "bootstrap-vue";
+import { BNavbar, BNavbarNav, BNavItem } from "bootstrap-vue";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "Header",
   components: {
     BNavbar,
-    BNavbarBrand,
-    BNavbarToggle,
-    BCollapse,
     BNavbarNav,
     BNavItem,
-    BNavItemDropdown,
-    BDropdownItem,
-    BAvatar,
   },
   methods: {
     logout() {
@@ -65,6 +30,21 @@ export default {
         this.$router.push({ path: "/login" });
       });
     },
+    ...mapActions("layout", ["switchSidebar"]),
+    switchSidebarMethod() {
+      if (this.sidebarClosed) {
+        this.switchSidebar(false);
+      } else {
+        this.switchSidebar(true);
+      }
+    },
+  },
+  computed: {
+    ...mapState("layout", {
+      sidebarClosed: (state) => state.sidebarClose,
+    }),
   },
 };
 </script>
+
+<style lang="scss" src="./Header.scss" />

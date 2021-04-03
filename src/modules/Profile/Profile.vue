@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <b-col sm="8">
+    <b-col lg="10" sm="12">
       <UserSummary />
       <UserEducation />
       <UserOrganizations />

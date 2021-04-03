@@ -1,16 +1,18 @@
 <template>
-  <div :class="{ root: true, sidebarClose }">
+  <div class="base-views">
     <div class="frame-outer">
       <div class="frame-inner">
-        <Header />
-        <SideBar />
-        <div ref="content" class="content">
-          <div class="content-inner-box">
-            <transition name="fade" mode="out-in">
-              <keep-alive>
-                <router-view></router-view>
-              </keep-alive>
-            </transition>
+        <div :class="{ root: true, sidebarClose }">
+          <Header />
+          <SideBar />
+          <div ref="content" class="content">
+            <div class="content-inner-box">
+              <transition name="fade" mode="out-in">
+                <keep-alive>
+                  <router-view></router-view>
+                </keep-alive>
+              </transition>
+            </div>
           </div>
         </div>
         <Footer />
@@ -21,7 +23,7 @@
 
 <script>
 import Header from "../Header/Header";
-import SideBar from "../Sidebar/Sidebar";
+import SideBar from "../Sidebar/DashboardSidebar/Sidebar";
 import Footer from "../Footer/Footer";
 import { mapState } from "vuex";
 
