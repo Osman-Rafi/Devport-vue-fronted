@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import Header from "../Header/Header";
-import SideBar from "../Sidebar/DashboardSidebar/Sidebar";
-import Footer from "../Footer/Footer";
+import Header from "../../Header/Dashboard/Header";
+import SideBar from "../../Sidebar/DashboardSidebar/Sidebar";
+import Footer from "../../Footer/Footer";
 import { mapState } from "vuex";
 
 export default {

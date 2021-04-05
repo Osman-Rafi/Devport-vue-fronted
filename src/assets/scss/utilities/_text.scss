@@ -1,12 +1,22 @@
-
 // Font sizes
 @each $breakpoint in map-keys($grid-breakpoints) {
   @include media-breakpoint-up($breakpoint) {
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
-    @each $index, $value in $font-sizes { .fs#{$infix}-#{$index}{ font-size: $value; } }
+    @each $index, $value in $font-sizes {
+      .fs#{$infix}-#{$index} {
+        font-size: $value;
+      }
+    }
   }
 }
 
+.font-weight-semi-bold{
+  font-weight: $font-weight-semi-bold;
+}
+
+.font-weight-extra-bold {
+  font-weight: $font-weight-extra-bold !important;
+}
 
 .text-black-60 {
   color: rgba(0, 0, 0, .7);
@@ -16,6 +26,6 @@
   color: rgba(0, 0, 0, .8);
 }
 
-.text-blue{
-  color: rgb(3,168,164);
+.text-blue {
+  color: rgb(3, 168, 164);
 }

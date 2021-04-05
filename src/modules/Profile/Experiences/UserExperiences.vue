@@ -116,7 +116,7 @@
 <script>
 import SectionHeader from "../SectionHeader";
 import Spinner from "@/common/components/Spinner/Spinner";
-import SummaryContainer from "../SummaryContainer";
+import SummaryContainer from "../../../common/components/SummaryContainer";
 import EmptyField from "@/common/components/Cards/EmptyField";
 import { BCard, BListGroupItem, BButton } from "bootstrap-vue";
 import { mapState } from "vuex";

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import DashboardLayout from "@/common/components/Layout/Dashboard/DashboardLayout";
+import DashboardLayout from "@/common/components/Layout/Layout/Dashboard/DashboardLayout";
 
 Vue.use(VueRouter);
 
@@ -39,6 +39,25 @@ const routes = [
           import("../modules/Profile/UserInformation/EditUserInformation"),
       },
     ],
+  },
+  {
+    path: "/portfolio",
+    component: () =>
+      import("../common/components/Layout/Layout/General/PortfolioLayout"),
+    meta: { requiresAuth: false },
+    children: [
+      {
+        path: ":username",
+        component: () =>
+          import(
+            /*webpackChunkName: "portfolio"*/ "../modules/Portfolio/UserPortfolio"
+          ),
+      },
+    ],
+  },
+  {
+    path: "*",
+    component: () => import("../common/components/404"),
   },
 ];
 

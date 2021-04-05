@@ -1,9 +1,6 @@
 <template>
   <div class="d-flex justify-content-between pt-4 border-bottom mb-4">
-    <p
-      class="font-weight-bold fs--1 mb-0 title-border px-2"
-      :class="titleClass"
-    >
+    <p class="font-weight-bold fs-0 mb-0 title-border px-2" :class="titleClass">
       {{ sectionTitle }}
     </p>
     <slot></slot>
