@@ -2,14 +2,14 @@
 //   {
 //     path: "/profile",
 //     component: () =>
-//       import("../common/components/Layout/Layout/General/General"),
+//       import("../common/components/Layout/Layout/Common/Common"),
 //     meta: { requiresAuth: false },
 //     children: [
 //       {
 //         path: "/",
 //         component: () =>
 //           import(
-//             /*webpackChunkName: "portfolio"*/ "../modules/General/UserPortfolio"
+//             /*webpackChunkName: "portfolio"*/ "../modules/Common/UserPortfolio"
 //           ),
 //       },
 //     ],

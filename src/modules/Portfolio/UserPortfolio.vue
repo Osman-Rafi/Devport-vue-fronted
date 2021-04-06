@@ -15,6 +15,9 @@ import API from "@/api/Api";
 import { notificationToast } from "@/common/components/NotificationToast";
 export default {
   name: "UserPortfolio",
+  title() {
+    return this.pageTitle;
+  },
   components: {
     Spinner,
     UserSummary,
@@ -26,7 +29,13 @@ export default {
       destinationUserName: this.$route.params.username,
       loading: false,
       portfolioData: {},
+      pageTitle: "",
     };
+  },
+  computed: {
+    /* pageTitle: function () {
+      return `${this.portfolioData.userSummary.fullName} | Devport`;
+    },*/
   },
   created() {
     this.fetchUserData();
@@ -36,7 +45,7 @@ export default {
       this.loading = true;
       try {
         const res = await API.get(
-          `user-portfolio/user/${this.destinationUserName}`
+          `user-portfolio/users/${this.destinationUserName}`
         );
         if (res.status === 200) {
           this.portfolioData = res.data;
@@ -53,6 +62,7 @@ export default {
         console.log(error);
       }
       this.loading = false;
+      console.log(this.pageTitle);
     },
   },
 };

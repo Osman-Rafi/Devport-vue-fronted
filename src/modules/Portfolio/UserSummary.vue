@@ -18,6 +18,26 @@
         <span class="mx-2 font-weight-normal">Followers</span> 0
         <span class="mx-2 font-weight-normal">Following</span>
       </p>
+      <div class="d-flex">
+        <span v-for="(value, key, index) in socialLinks" :key="index">
+          <a
+            v-if="value.link"
+            :href="'//' + value.link"
+            target="_blank"
+            class="text-black-70"
+          >
+            <template v-if="key === 'website'">
+              <font-awesome-icon icon="globe-asia" class="fa-lg mx-2" />
+            </template>
+            <template v-else>
+              <font-awesome-icon
+                :icon="['fab', value.icon]"
+                class="fa-lg mx-2"
+              />
+            </template>
+          </a>
+        </span>
+      </div>
     </b-col>
   </b-row>
 </template>
@@ -39,6 +59,12 @@ export default {
   data() {
     return {
       profilePlaceholder,
+      socialLinks: {
+        linkedin: { link: this.summary.linkedin, icon: "linkedin" },
+        facebook: { link: this.summary.facebook, icon: "facebook" },
+        github: { link: this.summary.github, icon: "github" },
+        website: { link: this.summary.website, icon: "globe-asia" },
+      },
     };
   },
 };

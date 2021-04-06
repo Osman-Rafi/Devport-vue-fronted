@@ -45,6 +45,7 @@ import {
   BButton,
 } from "bootstrap-vue";
 import ErrorMessage from "../../common/components/FormFields/ErrorMessage";
+import { mapActions } from "vuex";
 
 export default {
   name: "Login",
@@ -70,19 +71,10 @@ export default {
     };
   },
   methods: {
-    handleLogin() {
-      this.$store
-        .dispatch("login", {
-          email: this.email,
-          password: this.password,
-        })
-        .then(() => {
-          this.$router.push({ path: "/profile" });
-        })
-        .catch((err) => {
-          console.log(err);
-          // this.error = err.response.data.errors;
-        });
+    ...mapActions("auth", ["login"]),
+    async handleLogin() {
+      await this.login({ email: this.email, password: this.password });
+      await this.$router.push({ path: "/profile" });
     },
   },
 };

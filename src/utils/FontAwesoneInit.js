@@ -16,9 +16,15 @@ import {
   faArrowLeft,
   faBars,
   faPowerOff,
+  faGlobeAsia,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { faUsps } from "@fortawesome/free-brands-svg-icons";
+import {
+  faUsps,
+  faFacebook,
+  faGithub,
+  faLinkedin,
+} from "@fortawesome/free-brands-svg-icons";
 import {} from "@fortawesome/fontawesome-svg-core";
 import {
   faUserCircle,
@@ -52,5 +58,9 @@ library.add(
   faArrowLeft,
   faBars,
   faPowerOff,
-  faCompass
+  faCompass,
+  faFacebook,
+  faGithub,
+  faLinkedin,
+  faGlobeAsia
 );

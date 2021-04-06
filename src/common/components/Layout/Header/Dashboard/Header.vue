@@ -4,7 +4,7 @@
       <b-nav-item>
         <font-awesome-icon :icon="['far', 'compass']" class="mr-3" size="lg" />
       </b-nav-item>
-      <b-nav-item @click="logout">
+      <b-nav-item @click="handleLogout">
         <font-awesome-icon icon="power-off" size="lg" class="mx-2" />
       </b-nav-item>
       <b-nav-item class="d-md-none" @click="switchSidebarMethod">
@@ -25,12 +25,12 @@ export default {
     BNavItem,
   },
   methods: {
-    logout() {
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push({ path: "/login" });
-      });
-    },
     ...mapActions("layout", ["switchSidebar"]),
+    ...mapActions("auth", ["logout"]),
+    async handleLogout() {
+      await this.logout();
+      await this.$router.push({ path: "/login" });
+    },
     switchSidebarMethod() {
       if (this.sidebarClosed) {
         this.switchSidebar(false);
