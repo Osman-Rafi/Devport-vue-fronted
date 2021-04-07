@@ -3,7 +3,9 @@
     <b-col sm="12" lg="8" xl="6">
       <div class="mini-layout-login-body">
         <b-row>
-          <b-col class="text-center left-container d-none d-md-block">
+          <b-col
+            class="text-center left-container login-left-container d-none d-md-block"
+          >
             <h2 class="mt-7">SIGN IN</h2>
             <p class="mt-4 font-weight-semi-bold">Welcome back!</p>
             <p class="mt-13">
@@ -19,7 +21,7 @@
             <div class="border-bottom mb-4 d-block d-md-none">
               <h3>Sign In</h3>
               <p>
-                New to Zoom?
+                New to Devport?
                 <router-link to="/register">Sign Up Free</router-link>
               </p>
             </div>
@@ -144,4 +146,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss" src="./Login.scss" />
+<style scoped lang="scss" src="./auth.scss" />

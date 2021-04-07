@@ -2,8 +2,9 @@ import API from "@/api/Api";
 
 const register = async ({ commit }, authdata) => {
   try {
-    await API.post("register", authdata);
+    const res = await API.post("register", authdata);
     commit("register_user");
+    return res;
   } catch (error) {
     console.log(error);
   }

@@ -14,15 +14,14 @@ const routes = [
       {
         path: "login",
         component: () =>
-          import(/*webpackChunkName: "login"*/ "../modules/Auth/Login/Login"),
+          import(/*webpackChunkName: "login"*/ "../modules/Auth/Login"),
+      },
+      {
+        path: "register",
+        component: () =>
+          import(/*webpackChunkName: "register"*/ "../modules/Auth/Register"),
       },
     ],
-  },
-  {
-    path: "/register",
-    component: () =>
-      import(/*webpackChunkName: "register"*/ "../modules/Auth/Register"),
-    meta: { hideForAuth: true },
   },
   {
     path: "/",

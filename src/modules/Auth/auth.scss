@@ -4,12 +4,20 @@
 }
 
 .left-container {
-  background-image: url("../../../assets/img/illustrations/arrow.png");
-  background-color: #dae0e9;
+  background-image: url("../../assets/img/illustrations/arrow.png");
+
   color: #595959;
   background-position: center 170px;
   background-repeat: no-repeat;
   background-size: 569px;
+}
+
+.login-left-container {
+  background-color: #dae0e9;
+}
+
+.register-left-container {
+  background-color: #f4c20d;
 }
 
 .right-container {
@@ -74,19 +82,19 @@
 
   &.login-btn-google {
     &:before {
-      background-image: url("../../../assets/img/logo/brands/sm/google.png");
+      background-image: url("../../assets/img/logo/brands/sm/google.png");
     }
   }
 
   &.login-btn-facebook {
     &:before {
-      background-image: url("../../../assets/img/logo/brands/sm/facebook.png");
+      background-image: url("../../assets/img/logo/brands/sm/facebook.png");
     }
   }
 
   &.login-btn-github {
     &:before {
-      background-image: url("../../../assets/img/logo/brands/sm/github.png");
+      background-image: url("../../assets/img/logo/brands/sm/github.png");
     }
   }
 }
