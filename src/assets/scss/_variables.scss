@@ -9,9 +9,10 @@
   }
   @return $raised;
 }
+
 $type-scale: 1.2;
 $font-size-base: 0.9375rem !default;
-$font-sizes:()!default;
+$font-sizes: () !default;
 $font-sizes: (
         '-2':1/power($type-scale,2)*$font-size-base,
         '-1':1/$type-scale*$font-size-base,
@@ -26,7 +27,7 @@ $font-sizes: (
 
 $font-weight-normal: 400 !default;
 $font-weight-semi-bold: 600 !default;
-$font-weight-extra-bold :900 !default;
+$font-weight-extra-bold: 900 !default;
 
 
 // Layout
@@ -35,4 +36,32 @@ $dashboard-sidebar-width: 240px;
 $dashboard-content-padding: 2.85rem;
 $dashboard-sidebar-color: rgb(2, 3, 4);
 $dashboard-sidebar-item-boarder-color: transparent !default;
-;
+
+// Spacing
+//
+// Control the default styling of most Bootstrap elements by modifying these
+// variables. Mostly focused on spacing.
+// You can add more entries to the $spacers map, should you need more variation.
+
+$spacer: 1rem !default;
+$spacers: () !default;
+$spacers: map-merge(
+  (
+      0: 0,
+      1: ($spacer * .25),
+      2: ($spacer * .5),
+      3: $spacer,
+      4: ($spacer * 1.5),
+      5: ($spacer * 3),
+      6: ($spacer * 4),
+      7: ($spacer * 5),
+      8: ($spacer * 6.5),
+      9: ($spacer * 7.5),
+      10: ($spacer * 8),
+      11: ($spacer * 9.5),
+      12: ($spacer * 12),
+      13: ($spacer * 15),
+  ),
+  $spacers
+);
+

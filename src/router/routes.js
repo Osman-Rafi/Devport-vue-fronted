@@ -6,10 +6,17 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/login",
+    path: "/",
     component: () =>
-      import(/*webpackChunkName: "login"*/ "../modules/Auth/Login"),
+      import("../common/components/Layout/Layout/Auth/AuthLayout"),
     meta: { hideForAuth: true },
+    children: [
+      {
+        path: "login",
+        component: () =>
+          import(/*webpackChunkName: "login"*/ "../modules/Auth/Login/Login"),
+      },
+    ],
   },
   {
     path: "/register",

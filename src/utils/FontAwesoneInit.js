@@ -24,6 +24,7 @@ import {
   faFacebook,
   faGithub,
   faLinkedin,
+  faGoogle,
 } from "@fortawesome/free-brands-svg-icons";
 import {} from "@fortawesome/fontawesome-svg-core";
 import {
@@ -62,5 +63,6 @@ library.add(
   faFacebook,
   faGithub,
   faLinkedin,
-  faGlobeAsia
+  faGlobeAsia,
+  faGoogle
 );
