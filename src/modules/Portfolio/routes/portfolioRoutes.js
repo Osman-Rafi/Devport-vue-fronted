@@ -2,7 +2,7 @@ export default [
   {
     path: "/portfolio",
     component: () =>
-      import("@/common/components/Layout/Layout/General/PortfolioLayout"),
+      import("@/common/components/Layout/Layout/General/GeneralLayout"),
     meta: { requiresAuth: false },
     children: [
       {

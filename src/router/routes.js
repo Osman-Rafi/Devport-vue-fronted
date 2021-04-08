@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+//modules
 import authRoutes from "@/modules/Auth/routes/authRoutes";
 import profileRoutes from "@/modules/Profile/routes/profileRoutes";
 import portfolioRoutes from "@/modules/Portfolio/routes/portfolioRoutes";
@@ -7,6 +8,18 @@ import portfolioRoutes from "@/modules/Portfolio/routes/portfolioRoutes";
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/",
+    component: () =>
+      import("@/common/components/Layout/Layout/General/GeneralLayout"),
+    children: [
+      {
+        path: "",
+        component: () =>
+          import(/*webpackChunkName:"home"*/ "../modules/Home/Home"),
+      },
+    ],
+  },
   ...authRoutes,
   ...profileRoutes,
   ...portfolioRoutes,
