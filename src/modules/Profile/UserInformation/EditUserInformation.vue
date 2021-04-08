@@ -156,7 +156,7 @@
 </template>
 
 <script>
-import SectionHeader from "../SectionHeader";
+import SectionHeader from "../../../common/components/SectionHeader";
 import {
   BFormRow,
   BCol,

@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import SectionHeader from "../SectionHeader";
+import SectionHeader from "../../../common/components/SectionHeader";
 import Spinner from "@/common/components/Spinner/Spinner";
 import SummaryContainer from "../../../common/components/SummaryContainer";
 import EmptyField from "@/common/components/Cards/EmptyField";

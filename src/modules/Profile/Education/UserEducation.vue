@@ -113,7 +113,7 @@
 
 <script>
 import Vue from "vue"; //TODO: reduce it
-import SectionHeader from "../SectionHeader";
+import SectionHeader from "../../../common/components/SectionHeader";
 import CreateOrEditEducation from "./CreateOrEditEducation";
 import API from "../../../api/Api";
 import { mapState } from "vuex";

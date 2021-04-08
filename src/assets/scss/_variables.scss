@@ -1,3 +1,15 @@
+// Color system
+$blue: #04777d;
+$colors: () !default;
+$colors:map-merge(
+  (
+      "blue": $blue
+  ),
+  $colors
+);
+
+$primary: $blue !default;
+
 // Typography
 //
 // Font, line-height, and color for body text, headings, and more.
@@ -10,10 +22,11 @@
   @return $raised;
 }
 
-$type-scale: 1.2;
-$font-size-base: 0.9375rem !default;
+$type-scale: 1.15;
+$font-size-base: 1rem !default;
 $font-sizes: () !default;
 $font-sizes: (
+        '-3':1/power($type-scale,3)*$font-size-base,
         '-2':1/power($type-scale,2)*$font-size-base,
         '-1':1/$type-scale*$font-size-base,
         0:$font-size-base,
