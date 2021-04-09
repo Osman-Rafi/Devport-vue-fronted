@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "@/common/components/SectionHeader";
 import EmptyField from "@/common/components/Cards/EmptyField";
 import SummaryContainer from "@/common/components/SummaryContainer";
 import { BCard, BListGroupItem } from "bootstrap-vue";

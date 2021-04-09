@@ -15,7 +15,6 @@
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     </div>
   </div>
@@ -24,7 +23,6 @@
 <script>
 import Header from "../../Header/Dashboard/Header";
 import SideBar from "../../Sidebar/DashboardSidebar/Sidebar";
-import Footer from "../../Footer/Footer";
 import { mapState } from "vuex";
 
 export default {
@@ -32,7 +30,6 @@ export default {
   components: {
     Header,
     SideBar,
-    Footer,
   },
   computed: {
     ...mapState("layout", {
