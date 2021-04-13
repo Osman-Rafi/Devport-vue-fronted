@@ -4101,10 +4101,10 @@
   "resolved" "https://registry.npmjs.org/filepond-plugin-image-validate-size/-/filepond-plugin-image-validate-size-1.2.5.tgz"
   "version" "1.2.5"
 
-"filepond@>=1.8.x <5.x", "filepond@>=4.7.4 < 5.x", "filepond@>=4.x <5.x":
-  "integrity" "sha512-8UPPTzfpHZRUtJl3dEcGMLYOygg8taJZpYTv1WaEkvzeI+X0JX9+agMJ+5Lu1EKtdt9dGq/9Gud+EnNRBaGl1A=="
-  "resolved" "https://registry.npmjs.org/filepond/-/filepond-4.25.1.tgz"
-  "version" "4.25.1"
+"filepond@^4.27.0", "filepond@>=1.8.x <5.x", "filepond@>=4.7.4 < 5.x", "filepond@>=4.x <5.x":
+  "integrity" "sha512-Z1XUXny6BQw9RVORz/MMjyVJHcW+tXiMRxocLEAY6gY1EfpMPwLJcQhalpMnfiGax7sBqXkv3tE8sZO71Q7Hbw=="
+  "resolved" "https://registry.npmjs.org/filepond/-/filepond-4.27.0.tgz"
+  "version" "4.27.0"
 
 "filesize@^3.6.1":
   "integrity" "sha512-7KjR1vv6qnicaPMi1iiTcI85CyYwRO/PSFCu6SvqL8jN2Wjt/NIYQTFtFs7fSDCYOstUkEWIQGFUg5YZQfjlcg=="
