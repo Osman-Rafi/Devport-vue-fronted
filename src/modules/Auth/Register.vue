@@ -144,6 +144,7 @@ import {
 
 import ErrorMessage from "../../common/components/FormFields/ErrorMessage";
 import { mapActions } from "vuex";
+import { notificationToast } from "../../common/components/NotificationToast";
 
 export default {
   name: "Register",
@@ -187,7 +188,15 @@ export default {
           await this.$router.push({ path: "/profile" });
         }
       } catch (error) {
-        console.error(error);
+        notificationToast(
+          this,
+          true,
+          "Opps!",
+          "Something went wrong",
+          "danger",
+          "5000",
+          "top-left"
+        );
       }
     },
   },

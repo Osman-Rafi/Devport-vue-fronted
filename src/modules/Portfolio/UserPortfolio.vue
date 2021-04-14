@@ -59,7 +59,15 @@ export default {
           );
         }
       } catch (error) {
-        console.log(error);
+        notificationToast(
+          this,
+          true,
+          "Opps!",
+          "Something went wrong",
+          "danger",
+          "5000",
+          "top-left"
+        );
       }
       this.loading = false;
       console.log(this.pageTitle);

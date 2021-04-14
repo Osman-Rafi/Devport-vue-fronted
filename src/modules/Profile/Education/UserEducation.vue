@@ -282,7 +282,6 @@ export default {
           "5000",
           "top-left"
         );
-        console.log(error);
       }
       this.resetFormData();
     },

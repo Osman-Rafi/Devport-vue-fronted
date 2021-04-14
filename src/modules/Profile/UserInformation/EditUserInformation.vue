@@ -240,7 +240,6 @@ export default {
         );
         return res.data.path;
       } catch (error) {
-        console.log(error);
         notificationToast(
           this,
           true,
