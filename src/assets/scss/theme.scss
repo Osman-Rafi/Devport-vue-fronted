@@ -1,9 +1,20 @@
-//Bootstrap Styles
-@import "~bootstrap/dist/css/bootstrap.css";
-@import "~bootstrap-vue/dist/bootstrap-vue.css";
+@import "~bootstrap/scss/functions";
+@import "functions";
+@import "variables";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-vue/src/index.scss";
+
 //Theme Styles
 @import "utilities/text";
 @import "utilities/border";
 @import "card";
 @import "forms";
 @import "list-group";
+
+// TODO: change fonts placement
+/*@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Nunito:wght@200;300;400;600;700;800;900&family=Open+Sans&family=Poppins&display=swap');
+
+body {
+  font-family: 'Open Sans', sans-serif, 'Montserrat', sans-serif, 'Nunito', sans-serif, 'Open Sans', sans-serif, 'Poppins', sans-serif;
+}*/

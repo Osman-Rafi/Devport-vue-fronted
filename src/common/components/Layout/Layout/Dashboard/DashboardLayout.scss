@@ -1,0 +1,40 @@
+@import "../../../../../assets/scss/app";
+
+.base-views {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.frame-outer {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  float: left;
+  position: relative;
+}
+
+.root {
+  height: 100%;
+  @include media-breakpoint-up('md') {
+    margin-left: $dashboard-sidebar-width;
+  }
+}
+
+.content {
+  position: relative;
+  flex-grow: 1;
+  margin-left: 40px;
+  //padding: $dashboard-content-padding $dashboard-content-padding ($dashboard-content-padding + 1rem); // 1 rem for footer height
+
+  @media (max-width: breakpoint-max(sm)) {
+    padding: 20px 15px 40px;
+  }
+
+  @media (min-width: breakpoint-min(sm)) {
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto !important;
+  }
+}

@@ -1,75 +1,24 @@
-.font-weight-100 {
-  font-weight: 100 !important;
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600&display=swap');
+
+// Font sizes
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    @each $index, $value in $font-sizes {
+      .fs#{$infix}-#{$index} {
+        font-size: $value;
+      }
+    }
+  }
 }
 
-.font-weight-200 {
-  font-weight: 200 !important;
+.font-weight-semi-bold{
+  font-weight: $font-weight-semi-bold;
 }
 
-.font-weight-300 {
-  font-weight: 300 !important;
+.font-weight-extra-bold {
+  font-weight: $font-weight-extra-bold !important;
 }
-
-.font-weight-400 {
-  font-weight: 400 !important;
-}
-
-.font-weight-500 {
-  font-weight: 500 !important;
-}
-
-.font-weight-600 {
-  font-weight: 600 !important;
-}
-
-.font-weight-700 {
-  font-weight: 700 !important;
-}
-
-.font-weight-800 {
-  font-weight: 800 !important;
-}
-
-.fs--1 {
-  font-size: .813rem !important;
-}
-
-.fs--2 {
-  font-size: .69444rem !important;
-}
-
-.fs-0 {
-  font-size: 0.875rem !important;
-}
-
-.fs-1 {
-  font-size: 1.2rem !important;
-}
-
-.fs-2 {
-  font-size: 1.44rem !important;
-}
-
-.fs-3 {
-  font-size: 1.728rem !important;
-}
-
-.fs-4 {
-  font-size: 2.0736rem !important;
-}
-
-.fs-5 {
-  font-size: 2.48832rem !important;
-}
-
-.fs-6 {
-  font-size: 2.98598rem !important;
-}
-
-.fs-7 {
-  font-size: 3.58318rem !important;
-}
-
 
 .text-black-60 {
   color: rgba(0, 0, 0, .7);
@@ -79,6 +28,6 @@
   color: rgba(0, 0, 0, .8);
 }
 
-.text-blue{
-  color: rgb(3,168,164);
+.text-blue {
+  color: rgb(3, 168, 164);
 }

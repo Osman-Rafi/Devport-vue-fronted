@@ -1,0 +1,30 @@
+@import "../../../../../assets/scss/app";
+
+.sidebar {
+  color: $table-dark-hover-color;
+  margin-left: 15px;
+  border-right: 1px solid #f1f1f1;
+
+  @include media-breakpoint-up('md') {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: $dashboard-sidebar-width;
+  }
+}
+
+.sidebar-collapse{
+  @media (min-width: breakpoint-min('md')) {
+    display: block !important;
+  }
+}
+
+.logo {}
+
+.nav{
+  width: 100%;
+  padding: 30px 0 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

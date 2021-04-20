@@ -1,38 +1,33 @@
 <template>
-  <b-nav vertical>
-    <b-nav-item
-      v-for="item in sidebarItems"
-      :key="item.label"
-      class="text-decoration-none font-weight-600 sidebar-link mb-3"
-      :to="item.link"
-      active-class="active-link"
-    >
-      <span class="mr-3">
-        <font-awesome-icon
-          v-if="item.icon.prefix"
-          :icon="[item.icon.prefix, item.icon.iconName]"
-          class="mr-1"
-          size="lg"
+  <b-collapse
+    class="sidebar-collapse"
+    id="sidebar-collapse"
+    :visible="sidebarOpened"
+  >
+    <nav :class="{ sidebar: true }">
+      <ul class="nav">
+        <nav-link
+          tag="div"
+          v-for="(item, index) in sidebarItems"
+          :key="index"
+          :header="item.label"
+          :link="item.link"
+          :icon="item.icon"
         />
-        <font-awesome-icon
-          v-else
-          :icon="item.icon.iconName"
-          class="mr-1"
-          size="lg"
-        />
-      </span>
-      {{ item.label }}
-    </b-nav-item>
-  </b-nav>
+      </ul>
+    </nav>
+  </b-collapse>
 </template>
 
 <script>
-import { BNav, BNavItem } from "bootstrap-vue";
+import { BCollapse } from "bootstrap-vue";
+import NavLink from "./NavLink/NavLink";
+import { mapState } from "vuex";
 export default {
   name: "Sidebar.vue",
   components: {
-    BNav,
-    BNavItem,
+    NavLink,
+    BCollapse,
   },
   data() {
     return {
@@ -79,19 +74,13 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState("layout", {
+      sidebarOpened: (state) => !state.sidebarClose,
+    }),
+  },
+  methods: {},
 };
 </script>
 
-<style scoped lang="scss">
-.sidebar-link {
-  a {
-    color: rgb(0, 0, 0);
-  }
-}
-.active-link {
-  color: #04777d !important;
-  background-color: rgba(0, 0, 100, 0.05);
-  border-radius: 25px;
-  line-height: 40px;
-}
-</style>
+<style scoped lang="scss" src="./Sidebar.scss" />

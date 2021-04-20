@@ -1,0 +1,40 @@
+@import "../../../../../../assets/scss/app";
+
+.sidebarLink {
+  width: 100%;
+  overflow-x: hidden;
+  font-size: 13px;
+  line-height: 16px;
+  margin-bottom: 13.5px;
+
+  div {
+    color: #000;
+    opacity: 0.9;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semi-bold;
+    line-height: 40px;
+    border-radius: 25px;
+    display: inline-block;
+    min-width: 65%;
+
+    .icon {
+      position: relative;
+      color: rgb(0, 0, 0);
+      display: block;
+      float: left;
+      margin: 0 14px 0 14px;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 100, .05);
+    }
+  }
+
+  & .router-link-active {
+    color: #04777d;
+    background: rgba(0, 0, 100, .05);
+  }
+
+}

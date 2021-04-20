@@ -156,7 +156,7 @@
 </template>
 
 <script>
-import SectionHeader from "../SectionHeader";
+import SectionHeader from "../../../common/components/SectionHeader";
 import {
   BFormRow,
   BCol,
@@ -240,7 +240,6 @@ export default {
         );
         return res.data.path;
       } catch (error) {
-        console.log(error);
         notificationToast(
           this,
           true,

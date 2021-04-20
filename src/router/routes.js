@@ -1,44 +1,31 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import DashboardLayout from "../modules/Layout/Dashboard/DashboardLayout";
+//modules
+import authRoutes from "@/modules/Auth/routes/authRoutes";
+import profileRoutes from "@/modules/Profile/routes/profileRoutes";
+import portfolioRoutes from "@/modules/Portfolio/routes/portfolioRoutes";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/login",
-    component: () =>
-      import(/*webpackChunkName: "login"*/ "../modules/Auth/Login"),
-    meta: { hideForAuth: true },
-  },
-  {
-    path: "/register",
-    component: () =>
-      import(/*webpackChunkName: "register"*/ "../modules/Auth/Register"),
-    meta: { hideForAuth: true },
-  },
-  {
     path: "/",
-    component: DashboardLayout,
-    meta: { requiresAuth: true },
-    redirect: "/profile",
+    component: () =>
+      import("@/common/components/Layout/Layout/General/GeneralLayout"),
     children: [
       {
-        path: "/profile",
+        path: "",
         component: () =>
-          import(/*webpackChunkName: "profile"*/ "../modules/Profile/Profile"),
-      },
-      {
-        path: "blog",
-        component: () =>
-          import(/*webpackChunkName: "blog"*/ "../modules/Blog/RecentBlogPost"),
-      },
-      {
-        path: "edit-profile",
-        component: () =>
-          import("../modules/Profile/UserInformation/EditUserInformation"),
+          import(/*webpackChunkName:"home"*/ "../modules/Home/Home"),
       },
     ],
+  },
+  ...authRoutes,
+  ...profileRoutes,
+  ...portfolioRoutes,
+  {
+    path: "*",
+    component: () => import("../common/components/404"),
   },
 ];
 
