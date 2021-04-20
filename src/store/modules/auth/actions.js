@@ -22,17 +22,10 @@ const register = async ({ commit }, authdata) => {
 const login = async ({ commit }, authData) => {
   try {
     const res = await API.post("login", authData);
-    commit("set_user_data", res);
+    await commit("set_user_data", res);
   } catch (error) {
-    notificationToast(
-      this,
-      true,
-      "Opps!",
-      "Something went wrong",
-      "danger",
-      "5000",
-      "top-left"
-    );
+    alert("Something went wrong, Please try with correct credentials");
+    location.reload();
   }
 };
 

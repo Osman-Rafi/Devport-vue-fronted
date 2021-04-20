@@ -36,7 +36,7 @@
 <script>
 import { BImg, BRow, BCol } from "bootstrap-vue";
 import banner from "@/assets/img/banner/Mid-Town_View.jpg";
-import PillButton from "@/common/components/PillButton";
+import PillButton from "@/common/components/Buttons/PillButton";
 
 export default {
   name: "IndicateAvailability",

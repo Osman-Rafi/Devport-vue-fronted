@@ -48,10 +48,12 @@
                   <a href="#">Privacy Policy</a> and
                   <a href="#">Terms of Service</a>.
                 </p>
-
-                <b-button type="submit" block variant="primary"
-                  >Sign in
-                </b-button>
+                <spinning-button
+                  button-type="submit"
+                  :button-block="true"
+                  :button-title="loading ? 'Signing In..' : 'Sing In'"
+                  :spin="loading"
+                />
               </b-form>
             </div>
             <b-form-group class="oauth-login mt-5 mt-lg-7">
@@ -108,11 +110,12 @@ import {
   BForm,
   BFormGroup,
   BFormInput,
-  BButton,
   BFormRow,
 } from "bootstrap-vue";
-import { mapActions } from "vuex";
-import ErrorMessage from "@/common/components/FormFields/ErrorMessage";
+import { mapActions, mapState } from "vuex";
+import ErrorMessage from "../../common/components/FormFields/ErrorMessage";
+import { notificationToast } from "../../common/components/NotificationToast";
+import SpinningButton from "../../common/components/Buttons/SpinningButton";
 
 export default {
   name: "Login",
@@ -126,21 +129,36 @@ export default {
     BForm,
     BFormGroup,
     BFormInput,
-    BButton,
     BFormRow,
+    SpinningButton,
   },
   data() {
     return {
       email: "",
       password: "",
       error: {},
+      loading: false,
     };
+  },
+  computed: {
+    ...mapState("auth", {
+      firstName: (state) => state.user.firstName,
+    }),
   },
   methods: {
     ...mapActions("auth", ["login"]),
     async handleLogin() {
+      this.loading = true;
       await this.login({ email: this.email, password: this.password });
       await this.$router.push({ path: "/profile" });
+      this.loading = false;
+      notificationToast(
+        this,
+        true,
+        "Logged in",
+        `Welcome ${this.firstName}`,
+        "success"
+      );
     },
   },
 };
