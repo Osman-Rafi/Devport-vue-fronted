@@ -244,7 +244,7 @@ export default {
           this,
           true,
           "Oppss !!",
-          "Something went wrong to update profile picture",
+          "Something went wrong",
           "danger"
         );
       }
