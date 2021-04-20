@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0ccfc4"],{"4fea":function(e,a,n){"use strict";n.r(a);var t=function(){var e=this,a=e.$createElement,n=e._self._c||a;return n("div",[n("Header"),n("transition",{attrs:{name:"fade",mode:"out-in"}},[n("router-view")],1)],1)},c=[],o=n("f18a"),r={name:"AuthLayout",components:{Header:o["a"]}},u=r,i=n("2877"),s=Object(i["a"])(u,t,c,!1,null,"4c340aa6",null);a["default"]=s.exports}}]);
+//# sourceMappingURL=chunk-2d0ccfc4.ff7058a4.js.map
